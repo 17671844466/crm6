@@ -1,0 +1,70 @@
+package com.zhidisoft.system.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zhidisoft.common.JsonResult;
+import com.zhidisoft.common.PageBean;
+import com.zhidisoft.system.dao.ILeadsDao;
+import com.zhidisoft.system.entity.Leads;
+import com.zhidisoft.system.entity.User;
+import com.zhidisoft.system.service.ILeadsService;
+import com.zhidisoft.system.service.IUserService;
+
+@Controller
+@RequestMapping("/system/leads")
+public class LeadsController {
+	@Autowired
+	private ILeadsService leadsService;
+	
+	@Autowired
+	private IUserService userService;
+	
+	@RequestMapping("/leads")
+	public String index(){
+		return "system/listLeads";
+	}
+	
+	
+	@RequestMapping("/addLeads")
+	public String index2(){
+		return "system/addLeads";
+	}
+	
+	/**
+	 * 分页查询用户信息
+	 * @param pageNumber
+	 * @param pageSize
+	 * @param condition
+	 * @return
+	 */
+	@RequestMapping("/findByPage")
+	@ResponseBody
+	public JsonResult findByPage(PageBean<Map<String , Object>> pageBean){
+			
+		int total = leadsService.count(pageBean.getCondition());
+		List<Map<String , Object>> list = leadsService.findMapByPage(pageBean.getPage(),pageBean.getRows(),pageBean.getCondition());
+	
+		
+		pageBean.setTotal(total);
+		pageBean.setResult(list);
+		
+		return JsonResult.buildSuccessResult("查询成功", pageBean);
+	}
+	
+	
+	@RequestMapping("/saveLeads")
+	@ResponseBody
+	public void saveLeads(){
+			
+		
+	}
+	
+}

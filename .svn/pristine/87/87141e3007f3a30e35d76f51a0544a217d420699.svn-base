@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.IUserRoleDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.UserRole">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roleId" jdbcType="INTEGER" property="roleid" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    delete from tb_system_user_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.UserRole">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    insert into tb_system_user_role (id, roleId, userId
+      )
+    values (#{id,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.UserRole">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    update tb_system_user_role
+    set roleId = #{roleid,jdbcType=INTEGER},
+      userId = #{userid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, roleId, userId
+    from tb_system_user_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, roleId, userId
+    from tb_system_user_role
+  </select>
+  
+  
+  <!-- 根据用户id删除用户的所有的角色信息 -->
+  <delete id="deleteByUserId" >
+  	delete from tb_system_user_role where userid = #{userId}
+  </delete>
+  
+  <!-- 批量插入用户角色信息 -->
+  <insert id="insertBatch" parameterType="com.zhidisoft.system.entity.UserRole">
+  	insert into tb_system_user_role(userid,roleid) values 
+  	<foreach collection="list" item="ur" separator=",">
+  		(#{ur.userId},#{ur.roleId})
+  	</foreach>
+  </insert>
+</mapper>

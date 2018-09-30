@@ -1,0 +1,73 @@
+package com.zhidisoft.system.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zhidisoft.common.JsonResult;
+import com.zhidisoft.system.entity.Function;
+import com.zhidisoft.system.entity.Role;
+import com.zhidisoft.system.service.IFunctionService;
+import com.zhidisoft.system.service.IUserService;
+
+@Controller
+public class IndexController {
+	
+	@Autowired
+	private IFunctionService funcService;
+	
+	
+
+	@RequestMapping("/index")
+	public String index(){
+		return "index";
+	}
+	
+	@RequestMapping("/index/menu")
+	@ResponseBody
+	public JsonResult menu(Integer id,HttpSession session){
+		//从Session中获取角色信息
+		List<Role> roles = (List<Role>)session.getAttribute("roles");
+		
+		List<Function> list = funcService.findByRoles(id,roles);
+		
+		List<Map<String,Object>> menu = new ArrayList<>();
+		//把功能权限信息转换为符合easyui-tree结构的数据
+		for(Function function : list){
+			Map<String, Object> map = new HashMap<>();
+			map.put("id", function.getId());
+			map.put("text", function.getFuncname());
+			if(function.getFuncurl()!=null && !function.getFuncurl().isEmpty()){
+				map.put("st ate", "open");
+				Map<String, Object> attributes = new HashMap<>();
+				attributes.put("url", function.getFuncurl());
+				map.put("attributes", attributes);
+			}else{
+				map.put("state", "closed");
+			}
+			menu.add(map);
+			
+		}
+		
+		return JsonResult.buildSuccessResult("加载成功", menu);
+	}
+	
+	@RequestMapping("/test")
+	public String test(){
+		return "success";
+	}
+
+	
+	public String execute2(){
+		return "success";
+	}
+
+}

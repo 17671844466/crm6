@@ -1,0 +1,15 @@
+package com.zhidisoft.system.dao;
+
+import com.zhidisoft.base.dao.BaseDao;
+import com.zhidisoft.system.entity.Customer;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+public interface ICustomerDao extends BaseDao<Customer>{
+
+	List<Map<String, Object>> findByPageMap(@Param("offset")int offset,@Param("pageSize") Integer pageSize,@Param("condition") Map<String,Object> condition);
+	List<Map<String, Object>> findByPageMaps(@Param("offset")int offset,@Param("pageSize") Integer pageSize,@Param("condition") Map<String,Object> condition);
+	Integer countpool(@Param("condition")Map<String,Object> condition);
+}

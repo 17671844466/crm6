@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.IUserDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.User">
+    <!--
+      将实体类与表关联起来
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="userNote" jdbcType="VARCHAR" property="usernote" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="createBy" jdbcType="INTEGER" property="createby" />
+    <result column="updateBy" jdbcType="INTEGER" property="updateby" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  
+  <!-- 基础列名列表 -->
+  <sql id="base_user_columns">
+  	id, username, password, 
+      salt, state, phone, 
+      email, userNote, createTime, 
+      createBy, updateBy, updateTime
+  </sql>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+     根据ID删除一个数据
+    -->
+    delete from tb_system_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.User">
+    <!--
+      插入一行数据
+    -->
+    insert into tb_system_user (id, username, password, 
+      salt, state, phone, 
+      email, userNote, createTime, 
+      createBy, updateBy, updateTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{salt,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{usernote,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{createby,jdbcType=INTEGER}, #{updateby,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.User">
+    <!--
+      根据ID修改一条数据
+    -->
+    update tb_system_user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      userNote = #{usernote,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      createBy = #{createby,jdbcType=INTEGER},
+      updateBy = #{updateby,jdbcType=INTEGER},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+      根据ID查询一条数据
+    -->
+    select id, username, password, salt, state, phone, email, userNote, createTime, createBy, 
+    updateBy, updateTime
+    from tb_system_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      查询所有的数据
+    -->
+    select id, username, password, salt, state, phone, email, userNote, createTime, createBy, 
+    updateBy, updateTime
+    from tb_system_user
+  </select>
+   <!-- 根据用户名获取用户信息 -->
+  <select id="findByUsername" resultMap="BaseResultMap">
+  	select <include refid="base_user_columns"/> from tb_system_user where username = #{username}
+  </select>
+   <!-- 获取总记录数 -->
+  <select id="count" resultType="integer">
+  	select count(user_id) from tb_system_user
+  	<where>
+  		<if test="condition!=null and !condition.isEmpty()">
+  			<if test="condition.username!=null and condition.username!=''">
+  				username like concat('%',#{condition.username},'%')
+  			</if>
+  			<if test="condition.status!=null">
+  				state = #{condtion.state}
+  			</if>
+  		</if>
+  	</where>
+  </select>
+  
+    <!-- 查询分页结果 -->
+  <select id="findByPage" resultMap="BaseResultMap">
+  	select <include refid="base_user_columns"/> from tb_system_user
+  	<where>
+  		<if test="condition!=null and !condition.isEmpty()">
+  			<if test="condition.username!=null and condition.username!=''">
+  				username like concat('%',#{condition.username},'%')
+  			</if>
+  			<if test="condition.status!=null">
+  				stae = #{condtion.state}
+  			</if>
+  		</if>
+  	</where>
+  	order by createTime desc limit #{offset},#{pageSize}
+  </select>
+</mapper>

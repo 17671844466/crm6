@@ -1,0 +1,12 @@
+package com.zhidisoft.system.dao;
+
+import com.zhidisoft.base.dao.BaseDao;
+import com.zhidisoft.system.entity.Task;
+import java.util.List;
+import java.util.Map;
+
+public interface ITaskDao extends BaseDao<Task>{
+
+	List<Map<String, Object>> findAlls();
+  
+}

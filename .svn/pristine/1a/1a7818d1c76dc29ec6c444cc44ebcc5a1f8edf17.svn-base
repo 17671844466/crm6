@@ -1,0 +1,119 @@
+package com.zhidisoft.system.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.zhidisoft.common.JsonResult;
+import com.zhidisoft.system.entity.Function;
+import com.zhidisoft.system.entity.Role;
+import com.zhidisoft.system.entity.User;
+import com.zhidisoft.system.service.IFunctionService;
+import com.zhidisoft.system.service.IUserService;
+
+/**
+ * 负责权限管理的文本层
+ * 
+ * @author Administrator
+ *
+ */
+@RequestMapping("/manage")
+@Controller
+public class Manage {
+	
+	@Autowired
+	private IFunctionService funcService;
+	
+	@Autowired
+	private IUserService userService;
+	
+	/**
+	 * 跳转到权限页面
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/manage")
+	private String manage() {
+
+		return "system/manage";
+	}
+
+	/**
+	 * 获取用户树状菜单
+	 */
+	@RequestMapping("/menu")
+	@ResponseBody
+	public JsonResult menu(Integer id, HttpSession session) {
+		// 从Session中获取角色信息 以角色信息
+		List<Role> roles = (List<Role>) session.getAttribute("roles");
+		
+		
+		//将用户id和角色信息 进行查询
+		List<Function> list = funcService.findByRoles(id, roles);
+		
+		//创建一个map集合 用来存放查询到的信息
+		List<Map<String, Object>> menu = new ArrayList<>();
+		// 把功能权限信息转换为符合easyui-tree结构的数据
+		for (Function function : list) {
+			Map<String, Object> map = new HashMap<>();
+			//将方法的id和名字拿出来
+			map.put("id", function.getId());
+			map.put("text", function.getFuncname());
+			//判断权限是否有页面
+			if (function.getFuncurl() != null && !function.getFuncurl().isEmpty()) {
+				//如果有页面就给前端一个属性
+				map.put("state", "open");
+				Map<String, Object> attributes = new HashMap<>();
+				attributes.put("url", function.getFuncurl());
+				map.put("attributes", attributes);
+			} else {
+				map.put("state", "closed");
+			}
+			menu.add(map);
+
+		}
+
+		return JsonResult.buildSuccessResult("加载成功", menu);
+	}
+	
+	
+	/**
+	 * 将当前用户的所有的权限拿出来
+	 */
+	@RequestMapping("/root")
+	@ResponseBody
+	public JsonResult maneger(HttpSession session){
+		/**
+		 * 拿出当前用户的id 在从数据库中查出该用户的所有下属 从而对下属进行权限角色的设置
+		 */
+		User user = (User) session.getAttribute("user");
+		//查询用户的权限
+		List<Map<String, String>> list = userService.getFunctionAll();
+		
+		return JsonResult.buildSuccessResult("查询成功", list);
+	}
+	
+	/**
+	 * 增加权限页面
+	 */
+	@RequestMapping("/addfunction")
+	public ModelAndView addFunction(ModelAndView mv){
+		//查询所有没有父类的权限
+		List<Function> list= funcService.getNOparentId();
+		mv.addObject("list", list);
+		
+		
+		mv.setViewName("system/addandmodfunction");
+		return mv;
+	}
+
+}

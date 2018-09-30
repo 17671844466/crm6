@@ -1,0 +1,19 @@
+package com.zhidisoft.system.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+/**
+ * 权限控制器web层
+ * @author Administrator
+ *
+ */
+@Controller
+@RequestMapping("system")
+public class FunctionController {
+	@RequestMapping("/function")
+	public String function(){
+		return "system/function";
+		
+		
+	}
+}

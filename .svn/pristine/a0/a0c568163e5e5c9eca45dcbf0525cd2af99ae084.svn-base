@@ -1,0 +1,169 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="<%=basePath%>">
+<title>信息修改</title>
+<meta charset="utf-8">
+
+        <!-- CSS -->
+        <!-- <link rel="stylesheet" href="static/login/css/reset.css">
+        <link rel="stylesheet" href="static/login/css/supersized.css">
+        <link rel="stylesheet" href="static/login/css/style.css"> -->
+ <script src="static/login/js/jquery-1.8.2.min.js"></script>
+        <script src="static/login/js/supersized.3.2.7.min.js"></script>
+        <script src="static/login/js/supersized-init.js"></script>
+        <script src="static/login/js/scripts.js"></script>
+<%@include file="../script.html"%>
+
+<style type="text/css">
+.layout-panel-west {
+	border-right: 1px solid #c5c5c5;
+}
+</style>
+</head>
+
+<body>
+
+<form action="">
+	<table align="center" border="1">
+	<!-- 第一行 -->
+		<tr><td colspan="2">
+	<img alt="" src="">
+		
+		</td></tr>
+	<!-- 第二行 -->
+	<tr>
+	<td>头像上传:</td>
+	<td><input type="file" /></td>
+	</tr>
+	<tr>
+	<td colspan="2"><p id="msg" style="margin-bottom: -20px;"></p></td>
+	</tr>
+	<!-- 第三行 -->
+	<tr>
+	<td>用户名:</td>
+	<td><input id="username" name="username" class="easyui-textbox" prompt="输入用户名" style="width:300px"></td>
+	</tr>
+	<!-- 第四行 -->
+	<tr>
+	<td>手机号:</td>
+	<td><input id="phone" name="phone" class="easyui-textbox" prompt="输入手机号" style="width:300px"></td>
+	</tr>
+	<!-- 第五行 -->
+	<tr>
+	<td>工作邮箱:</td>
+	<td><input id="email" name="email" class="easyui-textbox" prompt="输入邮箱地址" style="width:300px"></td>
+	</tr>
+	<!-- 第六行 -->
+	<tr>
+	<td>备注信息:</td>
+	<td><input id="usernote" name="usernote" class="easyui-textbox" multiline="true" style="width:300px"></td>
+	</tr>
+	<!-- 第7行 -->
+	<tr>
+	<td>创建时间:</td>
+	<td><input id="createtime" class="easyui-textbox" readonly="true" style="width:300px"></td>
+	</tr>
+	</table>
+	</form>
+	
+	
+	
+
+
+</body>
+<script type="text/javascript">
+$(document).ready(function(){
+	/* 验证用户名 */
+	$("input[name=username]").on("input",function(){
+		var pattern = "[A-Za-z0-9_\-\u4e00-\u9fa5]{5,12}";
+		var username = $("input[name=username]").val();
+		if(username == ''){
+			$("#msg").html("用户名不能为空").css({"color":"red","font-size":"12px","font-weight":"bold"});
+		}else if(!check(username,pattern)){
+			alert(11)
+			$("#msg").html("用户名必须是数字英文组合，且长度在5~12之间").css({"color":"red","font-size":"12px","font-weight":"bold"});
+		}
+		else{
+			$("#msg").html("");
+		}
+	});
+	/* /* 验证手机号 *
+	$("input[name=phone]").on("input",function(){
+		var pattern = "^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$";
+		var password = $("input[name=phone]").val();
+		if(password == ''){
+			$("#msg").html("密码不能为空").css({"color":"red","font-size":"12px","font-weight":"bold"});
+		}else if(!check(password,pattern)){
+			$("#msg").html("密码必须是数字英文字母组合，且长度在6~16之间").css({"color":"red","font-size":"12px","font-weight":"bold"});
+		}
+		else{
+			$("#msg").html("");
+		}
+		
+	});
+	/* 验证邮箱 *
+	$("input[name=email]").on("input",function(){
+		var pattern = "^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
+		var password = $("input[name=email]").val();
+		if(password == ''){
+			$("#msg").html("密码不能为空").css({"color":"red","font-size":"12px","font-weight":"bold"});
+		}else if(!check(password,pattern)){
+			$("#msg").html("密码必须是数字英文字母组合，且长度在6~16之间").css({"color":"red","font-size":"12px","font-weight":"bold"});
+		}
+		else{
+			$("#msg").html("");
+		}
+		
+	});
+
+
+	
+
+	
+	$("#form1").on("submit",function(event){
+		event.preventDefault();
+		var password = $("input[name=password]").val();
+		var username = $("input[name=username]").val();
+		if(password == ''){
+			$("#msg").html("密码不能为空").css({"color":"red","font-size":"12px","font-weight":"bold"});
+			return;
+		}else if(!check(password,"^[a-zA-Z0-9]{6,16}$")){
+			$("#msg").html("密码必须是数字英文字母组合，且长度在6~16之间").css({"color":"red","font-size":"12px","font-weight":"bold"});
+			return;
+		}
+		else{
+			$("#msg").html("");
+		}
+		
+		if(username == ''){
+			$("#msg").html("用户名不能为空").css({"color":"red","font-size":"12px","font-weight":"bold"});
+			return;
+		}else if(!check(username,"[a-zA-Z][0-9a-zA-Z]{1,9}")){
+			$("#msg").html("用户名必须是数字英文组合，且长度在5~12之间").css({"color":"red","font-size":"12px","font-weight":"bold"});
+			return;
+		}
+		else{
+			$("#msg").html("");
+		}
+		$.post("logon",$("#form1").serialize(),function(data){
+			if(data && !data.success){
+				$("#msg").html(data.message).css({"color":"red","font-size":"12px","font-weight":"bold"});
+			}else{
+				window.location.href = "index";
+			}
+		},"json")
+	}); */
+});
+
+
+
+</script>
+</html>

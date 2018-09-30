@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- 扫描service层的组件 -->
+	<context:component-scan base-package="com.zhidisoft.**.service.impl"/>
+	
+	<!-- 引入外部资源文件 -->
+	<context:property-placeholder location="classpath:system.properties"/>
+	
+	<!-- 数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
+		<property name="driverClass" value="${jdbc.driver}"/>
+		<property name="jdbcUrl" value="${jdbc.url}"/>
+		<property name="user" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+		
+		<property name="minPoolSize" value="${jdbc.pool.minSize}"/>
+		<property name="maxPoolSize" value="${jdbc.pool.maxSize}"/>
+		<property name="initialPoolSize" value="${jdbc.pool.initSize}"/>
+		<property name="maxIdleTime" value="${jdbc.pool.maxIdle}"/>
+	</bean>
+	
+	<!-- 将mybatis的SqlSessionFactory纳入spring的IoC容器 -->
+	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 注入数据源 -->
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 指定mybatis配置文件的位置 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		<!-- 配置自定义java类型的别名 -->
+		<!-- <property name="typeAliases"></property> -->
+		<!-- 配置自定义类型处理器 -->
+		<!-- <property name="typeHandlers"></property> -->
+		<!-- 配置映射文件位置 -->
+		<property name="mapperLocations" value="classpath:mapper/*.xml"/> 
+	</bean>
+	
+	<!-- 配置映射接口扫描配置器，通过扫描映射接口在运行时，mybatis为它们提供代理实现，并且将它纳入spring的ioc容器 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 指定要扫描的接口的基包，如果mapper接口和它映射文件在同一个目录下而且名字相同，那么就不需要在SqlSessionFactoryBean中配置映射文件的位置 -->
+		<property name="basePackage" value="com.zhidisoft.**.dao"/>
+	</bean>
+	
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- 事务策略 -->
+	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED"/>
+			<tx:method name="save*" propagation="REQUIRED"/>
+			<tx:method name="update*" propagation="REQUIRED"/>
+			<tx:method name="edit*" propagation="REQUIRED"/>
+			<tx:method name="modify*" propagation="REQUIRED"/>
+			<tx:method name="delete*" propagation="REQUIRED"/>
+			<tx:method name="remove*" propagation="REQUIRED"/>
+			
+			<tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
+			<tx:method name="count*" propagation="SUPPORTS" read-only="true"/>
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+			<tx:method name="query*" propagation="SUPPORTS" read-only="true"/>
+			<tx:method name="list*" propagation="SUPPORTS" read-only="true"/>
+			
+			<tx:method name="*" propagation="SUPPORTS" read-only="true"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 事务切面 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.zhidisoft..service.impl.*.*(..))" id="transactionPointcut"/>
+		<aop:advisor advice-ref="transactionAdvice" pointcut-ref="transactionPointcut"/>
+	</aop:config>
+</beans>

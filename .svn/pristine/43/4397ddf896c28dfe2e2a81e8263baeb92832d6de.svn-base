@@ -1,0 +1,64 @@
+package com.zhidisoft.base.service;
+
+import java.util.List;
+import java.util.Map;
+
+public interface BaseService<E> {
+	/**
+	 * 保存实体对象的方法
+	 * @param entity
+	 * @return
+	 */
+	boolean save(E entity);
+	
+	/**
+	 * 更新实体对象的方法
+	 * @param entity
+	 * @return
+	 */
+	boolean update(E entity);
+	
+	/**
+	 * 删除实体对象的方法
+	 * @param entity
+	 * @return 
+	 */
+	boolean delete(Integer id);
+	
+	/**
+	 * 获取所有的实体
+	 * @return
+	 */
+	List<E> findAll();
+	/**
+	 * 
+	 * @return
+	 */
+	/**
+	 * 通过id获取单个实体
+	 * @param id
+	 * @return
+	 */
+	E get(Integer id);
+	
+	/**
+	 * 分页获取实体集合
+	 * @param pageNumber
+	 * @param pageSize
+	 * @param condition
+	 * @return
+	 */
+	List<E> findByPage(int pageNumber,Integer pageSize, Map<String, Object> condition);
+	
+	/**
+	 * 通用的获取总记录数的方法
+	 * @param condition
+	 * @return
+	 */
+	int count(Map<String, Object> condition);
+	
+	
+	
+	
+
+}

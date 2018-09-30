@@ -1,0 +1,87 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="<%=basePath%>">
+<title>任务信息版块</title>
+<%@include file="../script.html" %>
+</head>
+
+<body>
+<div id="tabs" data-options="region:'center',border:false,height:800" class="easyui-tabs">
+		<div id="tab1" title="任务">
+				<div class="theme-user-info-panel">
+					<div class="view-box">
+						视图：全部|我的任务|我分配的任务&nbsp;&nbsp;&nbsp;&nbsp;未启动|推迟|进行中|已完成|关闭的&nbsp;&nbsp;&nbsp;&nbsp;
+						今日截止|本周截止|本月截止|最近分配|最近更新&nbsp;&nbsp;&nbsp;&nbsp;回收站
+					</div>
+				</div>
+	<div class="taskbutton">
+			<div class="right">
+				<a class="easyui-linkbutton delete-button" data-options="iconCls:'icon-remove'">删除</a>
+				 <span class="dropdown-option"/>
+	                <select name="task1" id="taskId">
+	                      <option value="-1">任意字段</option> 
+	                </select>
+	          	</span>
+	          
+	           	<span class="dropdown-option"/>
+	                <select name="task2" id="bussId">
+	                      <option value="-1">包含</option> 
+	                </select>
+	           </span>
+				<a class="easyui-linkbutton searh-button" data-options="iconCls:'icon-searh'">搜索</a>
+			</div>
+		</div>
+	</div>
+		<table id="dataList"></table>
+		<div id="tab1" title="统计">
+				统计
+			</div>
+			<div id="tab1" title="帮助">
+				
+					帮助
+				
+			
+			</div>
+	</div>		
+</body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.post("task/findAll",
+			function(data){
+			alert(1);
+		$.each(data.data[1].keys,
+		function(index,obj){
+			var option = $("<option></option>");
+			option.html(obj);
+			option.attr("value",obj);
+			$("#taskId").append(option);
+		});
+	},
+		"json");
+	})
+	$(document).ready(function(){
+			$.post("task/findAll",
+				function(data){
+				alert(2);
+			$.each(data.data[2].values,
+			function(index,obj){
+				var option = $("<option></option>");
+				option.html(obj);
+				option.attr("value",obj);
+				$("#bussId").append(option);
+			});
+		},
+			"json");
+		})
+</script>
+</body>
+</html>

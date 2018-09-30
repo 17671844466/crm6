@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.IEmailTemplateDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.EmailTemplate">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="subject" jdbcType="VARCHAR" property="subject" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    delete from tb_crm_email_template
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.EmailTemplate">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    insert into tb_crm_email_template (id, subject, title, 
+      content, order_id)
+    values (#{id,jdbcType=INTEGER}, #{subject,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{orderId,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.EmailTemplate">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    update tb_crm_email_template
+    set subject = #{subject,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, subject, title, content, order_id
+    from tb_crm_email_template
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, subject, title, content, order_id
+    from tb_crm_email_template
+  </select>
+  
+  <select id="findByCondition" resultMap="BaseResultMap">
+  	select id, subject, title, content, order_id
+    from tb_crm_email_template
+    <where>
+    	<if test="condition!=null and !condition.isEmpty()">
+    		<if test="condition.id!=null and condition.id!=''">
+    			id = #{condition.id}
+    		</if>
+    		<if test="condition.subject!=null and condition.subject!=''">
+    			subject = #{condition.subject}
+    		</if>
+    	</if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,9 @@
+package com.zhidisoft.system.dao;
+
+import com.zhidisoft.base.dao.BaseDao;
+import com.zhidisoft.system.entity.Function;
+import java.util.List;
+
+public interface IFunctionDao extends BaseDao<Function>{
+   
+}

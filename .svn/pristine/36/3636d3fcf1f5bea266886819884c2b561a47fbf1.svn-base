@@ -1,0 +1,76 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<base href="<%=basePath%>">
+		<meta charset="UTF-8">
+		<title>角色管理</title>
+		<%@include file="../script.html" %>
+	</head>
+	<body>
+		<div class="toolbar">
+			<div class="left">
+			工具:
+			</div>
+			<div class="right">
+				<a class="easyui-linkbutton add-button" data-options="iconCls:'icon-add'">新增</a>
+				<a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-edit'">修改</a>
+				<a class="easyui-linkbutton delete-button" data-options="iconCls:'icon-remove'">删除</a>
+				
+			</div>
+		</div>
+		<table id="dataList"></table>
+	</body>
+	<script type="text/javascript">
+		
+		$(function(){
+			$("#dataList").datagrid({
+				url : "manage/root",
+				pagination : true,
+				toolbar : ".toolbar",
+				rownumbers : true,
+				loadFilter : function(data){
+					if(data && data.success){
+						return data.data;
+					}
+				},
+				columns : [[
+			        {field:'id',checkbox:true},
+			        {field:'funcName',title:'功能名'},
+			        {field:'funcURL',title:'功能页面',width:150},
+			        {field:'funcCode',title:'功能编码'},
+			        {field:'paname',title:'功能所属'},
+			        {field:'funcType',title:'功能类型',formatter:function(value){
+			        	if(value == 1){
+			        		return "菜单";
+			        	}else if(value == 0){
+			        		return "按钮";
+			        	}else{
+			        		return "已删除";
+			        	}
+			        }},
+			        {field:'funcNote',title:'功能备注',width:100},
+			        {field:'State',title:'状态',formatter: function(value){
+			        	if(value == 1){
+			        		return "正常";
+			        	}else if(value == 0){
+			        		return "禁用";
+			        	}else{
+			        		return "已删除";
+			        	}}},
+			        {field:'crename',title:'创建者'},
+			        {field:'createTime',title:'创建时间',width:100},
+			        {field:'upname',title:'修改者'},
+			        {field:'updateTime',title:'修改时间',width:100}
+			        
+
+			    ]]
+			});
+		})
+	</script>
+</html>

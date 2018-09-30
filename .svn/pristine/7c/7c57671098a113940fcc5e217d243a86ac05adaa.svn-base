@@ -1,0 +1,24 @@
+package com.zhidisoft.system.controller;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.zhidisoft.common.JsonResult;
+import com.zhidisoft.common.PageBean;
+import com.zhidisoft.system.service.IContactsService;
+
+@Controller
+@RequestMapping("system/contacts")
+public class ContactsController {
+	@Autowired
+	IContactsService contactsService;
+	@RequestMapping("/findByPages")
+	public JsonResult findByPageMap(PageBean<Map<String, Object>> pageBean) {
+		pageBean.setResult(contactsService.findByPageMap(pageBean.getOffset(),pageBean.getRows(),pageBean.getCondition()));
+		pageBean.setTotal(contactsService.count(pageBean.getCondition()));
+		return JsonResult.buildSuccessResult("查询成功", pageBean);
+	}
+}

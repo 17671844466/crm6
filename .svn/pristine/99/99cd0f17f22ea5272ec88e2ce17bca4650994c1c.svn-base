@@ -1,0 +1,98 @@
+package com.zhidisoft.system.controller;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.zhidisoft.common.CustomerContacts;
+import com.zhidisoft.common.JsonResult;
+import com.zhidisoft.common.PageBean;
+import com.zhidisoft.system.entity.Customer;
+import com.zhidisoft.system.entity.User;
+import com.zhidisoft.system.service.IContactsService;
+import com.zhidisoft.system.service.ICustomerService;
+
+@Controller
+@RequestMapping("system/customer")
+public class CustomerController {
+	@Autowired
+	ICustomerService customerService;
+	@Autowired
+	IContactsService contactsService;
+	@GetMapping("/customers")
+	public String tocus() {
+		return "system/listCustomer";
+	}
+	
+	@PostMapping("/findByPage")
+	@ResponseBody
+	public JsonResult findByPage(PageBean<Map<String, Object>> pageBean) {
+		List<Map<String, Object>> cus = customerService.findByPageMap(pageBean.getPage(), pageBean.getRows(), pageBean.getCondition());
+		pageBean.setTotal(customerService.count(pageBean.getCondition()));
+		pageBean.setResult(cus);
+		return JsonResult.buildSuccessResult("查询成功", pageBean);
+	}
+	@PostMapping("/findByPages")
+	@ResponseBody
+	public JsonResult findByPages(PageBean<Map<String, Object>> pageBean) {
+		List<Map<String, Object>> cus = customerService.findByPageMaps(pageBean.getPage(), pageBean.getRows(), pageBean.getCondition());
+		System.out.println("--------------------------"+cus.size());
+		pageBean.setTotal(customerService.countpool(pageBean.getCondition()));
+		pageBean.setResult(cus);
+		return JsonResult.buildSuccessResult("查询成功", pageBean);
+	}
+	@PostMapping("/saveCustomer")
+	@ResponseBody
+	public JsonResult saveCustomer(String name,CustomerContacts cc) {
+		User user = customerService.getCustomerByName(name);
+		String address = cc.getProvince()+"-"+cc.getCity()+"-"+cc.getDistrict()+"-"+cc.getRoad();
+		Customer customer = new Customer();
+		customer = cc.getCustomer();
+		customer.setCreatorUserId(user.getId());
+		customer.setCreateTime(new Date());
+		customer.setAddress(address);
+		customer.setUpdateTime(new Date());
+		customer.setDeleteStatus(0);
+		customer.setIsLocked(0);
+		Integer result = customerService.saveReturnId(customer);
+		if(result>0) {
+			cc.getContacts().setCustomerId(customer.getId());
+			cc.getContacts().setCreateTime(new Date());
+			cc.getContacts().setUpdateTime(new Date());
+			boolean save = contactsService.save(cc.getContacts());
+			if(save==true) {
+				return JsonResult.buildSuccessResult("插入成功");
+			}
+		}
+		return JsonResult.buildFailureResult("插入失败！");
+	}
+	@PostMapping("/delCustomer")
+	@ResponseBody
+	public JsonResult delCustomer(Integer id) {
+		boolean result = customerService.deleteStatus(id);
+		if(result) {
+			return JsonResult.buildSuccessResult("删除成功");
+		}
+		return JsonResult.buildFailureResult("删除失败");
+	}
+	
+	@RequestMapping("/editcustomer")
+	public ModelAndView editcustomer(Integer id) {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("customer", customerService.getCustomerById(id));
+		mv.setViewName("system/editCustomer");
+		return mv;
+	}
+	@GetMapping("/addcustomer")
+	public String toaddcustomer() {
+		return "system/addCustomer";
+	}
+}

@@ -1,0 +1,64 @@
+package com.zhidisoft.system.service.impl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zhidisoft.base.service.impl.BaseServiceImpl;
+import com.zhidisoft.exception.UserStatusException;
+import com.zhidisoft.system.dao.ICustomerDao;
+import com.zhidisoft.system.entity.Customer;
+import com.zhidisoft.system.entity.User;
+import com.zhidisoft.system.service.ICustomerService;
+@Service
+public class CustomerServiceImpl extends BaseServiceImpl<Customer> implements ICustomerService{
+	@Autowired
+	ICustomerDao customerDao;
+	@Override
+	public List<Map<String, Object>> findByPageMap(Integer page, Integer rows, Map<String,Object> condition) {
+		if(condition.get("userid")!=null) {
+			String userid = (String) condition.get("userid");
+			condition.put("userid", Integer.parseInt(userid));
+		}
+		List<Map<String, Object>> list = customerDao.findByPageMap((page-1)*rows, rows, condition);
+		for (Map<String, Object> map : list) {
+			Long delete_time =31-(System.currentTimeMillis()-((Date)map.get("update_time")).getTime())/ (1000 * 60 * 60 * 24);
+			map.put("delete_time", delete_time);
+		}
+		return list;
+	}
+	@Override
+	public List<Map<String, Object>> findByPageMaps(Integer page, Integer rows, Map<String, Object> condition) {
+		List<Map<String, Object>> list = customerDao.findByPageMaps((page-1)*rows, rows, condition);
+		return list;
+	}
+	@Override
+	public Integer countpool(Map<String, Object> condition) {
+		return customerDao.countpool(condition);
+	}
+	@Override
+	public Integer saveReturnId(Customer customer) {
+		return customerDao.saveReturnId(customer);
+	}
+	@Override
+	public boolean deleteStatus(Integer id) {
+		return customerDao.deleteStatus(id)>0;
+	}
+	@Override
+	public Map<String, Object> getCustomerById(Integer id) {
+		return customerDao.getCustomerById(id);
+	}
+	@Override
+	public User getCustomerByName(String name) {
+		User user = customerDao.getCustomerByName(name);
+		if(user == null) {
+			throw new UserStatusException("用户"+name+"不存在!");
+		}
+		return user;
+	}
+	
+}

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+	<context id="mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+		<!-- 注释生成器 -->
+		<commentGenerator type="com.zhidisoft.mybatis.generator.CommentGenerator">
+			<property name="suppressAllComments" value="false"/>
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+	
+		<!-- 数据库连接相关信息 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://192.168.10.223:3306/crm6" 
+			userId="root"
+			password="root">
+		</jdbcConnection>
+
+		<!-- Java类型解析 -->
+		<javaTypeResolver>
+			<!-- 
+				id decimal(18,2) 
+				指定是否将jdbc类型DECIMAL或者NUMERIC强制转换为java.math.BigDecimal类型 如果为定义默认值为false，当为false时 
+				且如果数据库中对应的列为deciaml或者Number类型时 
+				1、如果列的长度超过18位，或者小数位大于0则自动生成属性为为java.math.BigDecimal类型 
+				2、如果列的长度为10到18位，且小数位等于0，那么自动生成属性为java.lang.Long类型 
+				3、如果列的长度为5到9位，且小数位等于0，那么自动生成属性为java.lang.Integer类型 
+				4、如果列的长度为小于5位，且小数位等于0，那么自动生成属性为java.lang.Short类型 -->
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- 指定实体生成的位置 -->
+		<javaModelGenerator targetPackage="com.zhidisoft.system.entity"
+			targetProject="src\main\java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- 指定映射文件生成的位置 -->
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="src\main\resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- 映射信息对应的接口生成位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.zhidisoft.system.dao" targetProject="src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<!-- 定义表以及生成的实体类、dao类、映射文件等信息 -->
+		<table tableName="tb_business_task" domainObjectName="BusinessTask" mapperName="IBusinessTaskDao"/>
+		<table tableName="tb_crm_announcment" domainObjectName="Announcment" mapperName="IAnnouncmentDao" />
+		<table tableName="tb_crm_business" domainObjectName="Business" mapperName="IBusinessDao" />
+		<table tableName="tb_crm_business_status" domainObjectName="BusinessStatus" mapperName="IBusinessStatusDao" />
+		<table tableName="tb_crm_contacts" domainObjectName="Contacts" mapperName="IContactsDao" />
+		<table tableName="tb_crm_contract" domainObjectName="Contract" mapperName="IContractDao" />
+		<table tableName="tb_crm_customer" domainObjectName="Customer" mapperName="ICustomerDao" />
+		<table tableName="tb_crm_department" domainObjectName="Department" mapperName="IDepartmentDao" />
+		<table tableName="tb_crm_email_record" domainObjectName="EmailRecord" mapperName="IEmailRecordDao" />
+		<table tableName="tb_crm_email_template" domainObjectName="EmailTemplate" mapperName="IEmailTemplateDao" />
+		<table tableName="tb_crm_employee" domainObjectName="Employee" mapperName="IEmployeeDao" />
+		<table tableName="tb_crm_leads" domainObjectName="Leads" mapperName="ILeadsDao" />
+		<table tableName="tb_crm_login_history" domainObjectName="LoginHistory" mapperName="ILoginHistoryDao" />
+		<table tableName="tb_crm_message" domainObjectName="Message" mapperName="IMessageDao" />
+		<table tableName="tb_crm_position" domainObjectName="Position" mapperName="IPositionDao" />
+		<table tableName="tb_crm_product" domainObjectName="Product" mapperName="IProductDao" />
+		<table tableName="tb_crm_product_category" domainObjectName="ProductCategory" mapperName="IProductCategoryDao" />
+		<table tableName="tb_crm_product_images" domainObjectName="ProductImages" mapperName="IProductImagesDao" />
+		<table tableName="tb_crm_r_business_contract" domainObjectName="BusinessContract" mapperName="IBusinessContractDao" />
+		<table tableName="tb_crm_r_business_customer" domainObjectName="BusinessCustomer" mapperName="IBusinessCustomerDao" />
+		<table tableName="tb_crm_r_business_product" domainObjectName="BusinessProduct" mapperName="IBusinessProductDao" />
+		<table tableName="tb_crm_r_business_task" domainObjectName="BusinessTask" mapperName="IBusinessTaskDao" />
+		<table tableName="tb_crm_sms_record" domainObjectName="SmsRecord" mapperName="ISmsRecordDao" />
+		<table tableName="tb_crm_sms_template" domainObjectName="SmsTemplate" mapperName="ISmsTemplateDao" />
+		<table tableName="tb_crm_task" domainObjectName="Task" mapperName="ITaskDao" />
+		<table tableName="tb_system_dict" domainObjectName="Dict" mapperName="IDictDao" />
+		<table tableName="tb_system_dict_type" domainObjectName="DictType" mapperName="IDictTypeDao" />
+		<table tableName="tb_system_function" domainObjectName="Function" mapperName="IFunctionDao" />
+		<table tableName="tb_system_role" domainObjectName="Role" mapperName="IRoleDao" />
+		<table tableName="tb_system_role_function" domainObjectName="RoleFunction" mapperName="IRoleFunctionDao" />
+		<table tableName="tb_system_user" domainObjectName="User" mapperName="IUserDao" />
+		<table tableName="tb_system_user_role" domainObjectName="UserRole" mapperName="IUserRoleDao" />
+
+	</context>
+</generatorConfiguration>

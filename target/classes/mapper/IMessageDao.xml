@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.IMessageDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.Message">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="to_user_id" jdbcType="INTEGER" property="toUserId" />
+    <result column="from_user_id" jdbcType="INTEGER" property="fromUserId" />
+    <result column="read_time" jdbcType="TIMESTAMP" property="readTime" />
+    <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    delete from tb_crm_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.Message">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    insert into tb_crm_message (id, to_user_id, from_user_id, 
+      read_time, send_time, status, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{toUserId,jdbcType=INTEGER}, #{fromUserId,jdbcType=INTEGER}, 
+      #{readTime,jdbcType=TIMESTAMP}, #{sendTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.Message">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    update tb_crm_message
+    set to_user_id = #{toUserId,jdbcType=INTEGER},
+      from_user_id = #{fromUserId,jdbcType=INTEGER},
+      read_time = #{readTime,jdbcType=TIMESTAMP},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, to_user_id, from_user_id, read_time, send_time, status, content
+    from tb_crm_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, to_user_id, from_user_id, read_time, send_time, status, content
+    from tb_crm_message
+  </select>
+  <!-- 根据条件查询总记录数 -->
+  <select  id="count" resultType="Integer">
+  	select count(m.id) from tb_crm_message m 
+  	left join tb_system_user u1 on u1.id = m.from_user_id
+	left join tb_system_user u2 on u2.id = m.to_user_id
+  	<where>
+  		<if test="condition!=null and !condition.isEmpty()">
+  			<if test="condition.userId!=null and condition.userId!=''">
+  				<!-- 判断查询这是发件人还是收件人,userType值为0表示收件人,1表示发件人 -->
+  				<if test="condition.userType==0">
+  					m.to_user_id = #{condition.userId}
+  					and m.msg_status in(0,1)
+  					<if test="condition.fromstart!=null and condition.fromstart!=''">
+  						and m.send_time	&gt; #{ condition.fromstart}
+  					</if>
+  					<if test="condition.fromend!=null and condition.fromend!=''">
+  						and m.send_time	&lt;  #{condition.fromend}
+  					</if>
+  					<if test="condition.ready!=null and condition.ready!=''">
+  						and m.status = #{condition.ready}
+  					</if>
+  					<if test="condition.fromuser!=null and condition.fromuser!=''">
+  						and u1.username like concat('%',#{condition.fromuser},'%')
+  					</if>
+  				</if>
+  				<if test="condition.userType==1">
+  					m.from_user_id = #{condition.userId}
+  					and m.msg_status in(0,2)
+  					<if test="condition.tostart!=null and condition.tostart!=''">
+  						and m.send_time	&gt; #{ condition.tostart}
+  					</if>
+  					<if test="condition.toend!=null and condition.toend!=''">
+  						and m.send_time	&lt;  #{condition.toend}
+  					</if>
+  					<if test="condition.touser!=null and condition.touser!=''">
+  						and u2.username like concat('%',#{condition.touser},'%')
+  					</if>
+  					
+  				</if>
+  			</if>
+  		</if>
+  	</where>
+  	
+  </select>
+  
+  <select id="findMapByPage"  resultType="hashmap">
+  	select m.id,m.content,m.send_time as sendTime,m.read_time as readTime,m.status ,u1.username as settername ,u2.username as gettername
+   from  tb_crm_message  m
+	left join tb_system_user u1 on u1.id = m.from_user_id
+	left join tb_system_user u2 on u2.id = m.to_user_id
+  	<where>
+  		<if test="condition!=null and !condition.isEmpty()">
+  			<if test="condition.userId!=null and condition.userId!=''">
+  				<!-- 判断查询这是发件人还是收件人,userType值为0表示收件人,1表示发件人 -->
+  				<if test="condition.userType==0">
+  					m.to_user_id = #{condition.userId}
+  					and m.msg_status in(0,1)
+  					<if test="condition.fromstart!=null and condition.fromstart!=''">
+  						and m.send_time	&gt; #{condition.fromstart}
+  					</if>
+  					<if test="condition.fromend!=null and condition.fromend!=''">
+  						and m.send_time	&lt;  #{condition.fromend}
+  					</if>
+  					<if test="condition.ready!=null and condition.ready!=''">
+  						and m.status = #{condition.ready}
+  					</if>
+  					<if test="condition.fromuser!=null and condition.fromuser!='' ">
+  						and u1.username like concat('%',#{condition.fromuser},'%')
+  					</if>
+  					
+  				</if>
+  				<if test="condition.userType==1">
+  					m.from_user_id = #{condition.userId}
+  					and m.msg_status in(0,2)
+  					<if test="condition.tostart!=null and condition.tostart!=''">
+  						and m.send_time	&gt; #{condition.tostart}
+  					</if>
+  					<if test="condition.toend!=null and condition.toend!=''">
+  						and m.send_time	&lt;  #{condition.toend}
+  					</if>
+  					<if test="condition.touser!=null and condition.touser!=''">
+  						and u2.username like concat('%',#{condition.touser},'%')
+  					</if>
+  					
+  				</if>
+  			</if>
+  		</if>
+  	</where>
+  	order by m.send_time desc limit #{offset},#{pageSize}
+  </select>
+  <select id="getMessage" resultType="hashmap">
+  	select m.id,m.content,m.send_time as sendTime,m.read_time as readTime,m.status ,
+  	u1.username as settername, u2.username as gettername 
+  	from  tb_crm_message  m
+	left join tb_system_user u1 on u1.id = m.from_user_id
+	left join tb_system_user u2 on u2.id = m.to_user_id
+	 where m.id= #{messageId}
+  </select>
+  
+  <update id="changeStatus">
+  	 update tb_crm_message
+  	set status = 1,
+  	 read_time = #{date}
+  	 where id=#{messageId}
+  </update>
+  
+  <update id="changeMessageStatus">
+  	update tb_crm_message
+  	set 
+  	<if test="condition!=null and !condition.isEmpty()">
+  		<if test="condition.userType == 0">
+  		msg_status = msg_status+2
+  		</if>
+  		<if test="condition.userType == 1">
+  		msg_status = msg_status+1
+  		</if>
+  		where id=#{condition.messageId}
+  	</if>
+  </update>
+  
+  <insert id="send" >
+  
+    insert into tb_crm_message (to_user_id, from_user_id, send_time,  content)
+    	values ( #{toUserId}, #{fromUserId}, #{date}, #{content})
+  </insert>
+  
+</mapper>

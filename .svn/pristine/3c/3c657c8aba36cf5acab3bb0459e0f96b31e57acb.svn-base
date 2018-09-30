@@ -1,0 +1,26 @@
+package com.zhidisoft.system.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+/**
+ * 处理用户的上传和修改资料
+ * @author Administrator
+ *
+ */
+@Controller
+@RequestMapping("/user")
+public class UserPersonal {
+	
+	
+	/**
+	 * 跳转到修改页面
+	 */
+	@RequestMapping("updateuser")
+	ModelAndView updateUser(ModelAndView mv){
+		System.out.println("页面交转");
+		mv.setViewName("system/user");
+		return mv;
+	}
+}

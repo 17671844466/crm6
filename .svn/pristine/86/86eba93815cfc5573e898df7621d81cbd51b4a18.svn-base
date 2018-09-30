@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.ITaskDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.Task">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="owner_user_id" jdbcType="VARCHAR" property="ownerUserId" />
+    <result column="about_users" jdbcType="VARCHAR" property="aboutUsers" />
+    <result column="subject" jdbcType="VARCHAR" property="subject" />
+    <result column="due_date" jdbcType="TIMESTAMP" property="dueDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="priority" jdbcType="VARCHAR" property="priority" />
+    <result column="send_email" jdbcType="VARCHAR" property="sendEmail" />
+    <result column="creator_user_id" jdbcType="INTEGER" property="creatorUserId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="isclose" jdbcType="INTEGER" property="isclose" />
+    <result column="delete_status" jdbcType="INTEGER" property="deleteStatus" />
+    <result column="delete_user_id" jdbcType="INTEGER" property="deleteUserId" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    delete from tb_crm_task
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.Task">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    insert into tb_crm_task (id, owner_user_id, about_users, 
+      subject, due_date, status, 
+      priority, send_email, creator_user_id, 
+      create_date, update_date, isclose, 
+      delete_status, delete_user_id, delete_time, 
+      description)
+    values (#{id,jdbcType=INTEGER}, #{ownerUserId,jdbcType=VARCHAR}, #{aboutUsers,jdbcType=VARCHAR}, 
+      #{subject,jdbcType=VARCHAR}, #{dueDate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{priority,jdbcType=VARCHAR}, #{sendEmail,jdbcType=VARCHAR}, #{creatorUserId,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{isclose,jdbcType=INTEGER}, 
+      #{deleteStatus,jdbcType=INTEGER}, #{deleteUserId,jdbcType=INTEGER}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.Task">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    update tb_crm_task
+    set owner_user_id = #{ownerUserId,jdbcType=VARCHAR},
+      about_users = #{aboutUsers,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      due_date = #{dueDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=VARCHAR},
+      send_email = #{sendEmail,jdbcType=VARCHAR},
+      creator_user_id = #{creatorUserId,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      isclose = #{isclose,jdbcType=INTEGER},
+      delete_status = #{deleteStatus,jdbcType=INTEGER},
+      delete_user_id = #{deleteUserId,jdbcType=INTEGER},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, owner_user_id, about_users, subject, due_date, status, priority, send_email, 
+    creator_user_id, create_date, update_date, isclose, delete_status, delete_user_id, 
+    delete_time, description
+    from tb_crm_task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, owner_user_id, about_users, subject, due_date, status, priority, send_email, 
+    creator_user_id, create_date, update_date, isclose, delete_status, delete_user_id, 
+    delete_time, description
+    from tb_crm_task
+  </select>
+</mapper>

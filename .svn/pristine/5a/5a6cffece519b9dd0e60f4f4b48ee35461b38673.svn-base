@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.IBusinessDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.Business">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+         将实体类与表关联起来
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="origin" jdbcType="VARCHAR" property="origin" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="estimate_price" jdbcType="INTEGER" property="estimatePrice" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="creator_user_id" jdbcType="INTEGER" property="creatorUserId" />
+    <result column="owner_user_id" jdbcType="INTEGER" property="ownerUserId" />
+    <result column="gain_rate" jdbcType="INTEGER" property="gainRate" />
+    <result column="total_amount" jdbcType="INTEGER" property="totalAmount" />
+    <result column="subtotal_val" jdbcType="REAL" property="subtotalVal" />
+    <result column="discount_price" jdbcType="REAL" property="discountPrice" />
+    <result column="sales_price" jdbcType="REAL" property="salesPrice" />
+    <result column="due_date" jdbcType="TIMESTAMP" property="dueDate" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="status_id" jdbcType="INTEGER" property="statusId" />
+    <result column="total_price" jdbcType="REAL" property="totalPrice" />
+    <result column="nextstep" jdbcType="VARCHAR" property="nextstep" />
+    <result column="nextstep_time" jdbcType="TIMESTAMP" property="nextstepTime" />
+    <result column="delete_status" jdbcType="INTEGER" property="deleteStatus" />
+    <result column="delete_user_id" jdbcType="INTEGER" property="deleteUserId" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="contacts_id" jdbcType="INTEGER" property="contactsId" />
+    <result column="contract_address" jdbcType="VARCHAR" property="contractAddress" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  
+ 
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+      根据ID删除一个数据
+    
+    -->
+    delete from tb_crm_business
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.Business">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+       插入一行数据
+    -->
+    insert into tb_crm_business (id, name, origin, 
+      type, estimate_price, customer_id, 
+      creator_user_id, owner_user_id, gain_rate, 
+      total_amount, subtotal_val, discount_price, 
+      sales_price, due_date, create_time, 
+      update_time, update_user_id, status_id, 
+      total_price, nextstep, nextstep_time, 
+      delete_status, delete_user_id, delete_time, 
+      contacts_id, contract_address, description
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{estimatePrice,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, 
+      #{creatorUserId,jdbcType=INTEGER}, #{ownerUserId,jdbcType=INTEGER}, #{gainRate,jdbcType=INTEGER}, 
+      #{totalAmount,jdbcType=INTEGER}, #{subtotalVal,jdbcType=REAL}, #{discountPrice,jdbcType=REAL}, 
+      #{salesPrice,jdbcType=REAL}, #{dueDate,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{statusId,jdbcType=INTEGER}, 
+      #{totalPrice,jdbcType=REAL}, #{nextstep,jdbcType=VARCHAR}, #{nextstepTime,jdbcType=TIMESTAMP}, 
+      #{deleteStatus,jdbcType=INTEGER}, #{deleteUserId,jdbcType=INTEGER}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{contactsId,jdbcType=INTEGER}, #{contractAddress,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.Business">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+     根据ID修改一条数据
+    -->
+    update tb_crm_business
+    set name = #{name,jdbcType=VARCHAR},
+      origin = #{origin,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      estimate_price = #{estimatePrice,jdbcType=INTEGER},
+      customer_id = #{customerId,jdbcType=INTEGER},
+      creator_user_id = #{creatorUserId,jdbcType=INTEGER},
+      owner_user_id = #{ownerUserId,jdbcType=INTEGER},
+      gain_rate = #{gainRate,jdbcType=INTEGER},
+      total_amount = #{totalAmount,jdbcType=INTEGER},
+      subtotal_val = #{subtotalVal,jdbcType=REAL},
+      discount_price = #{discountPrice,jdbcType=REAL},
+      sales_price = #{salesPrice,jdbcType=REAL},
+      due_date = #{dueDate,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      status_id = #{statusId,jdbcType=INTEGER},
+      total_price = #{totalPrice,jdbcType=REAL},
+      nextstep = #{nextstep,jdbcType=VARCHAR},
+      nextstep_time = #{nextstepTime,jdbcType=TIMESTAMP},
+      delete_status = #{deleteStatus,jdbcType=INTEGER},
+      delete_user_id = #{deleteUserId,jdbcType=INTEGER},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      contacts_id = #{contactsId,jdbcType=INTEGER},
+      contract_address = #{contractAddress,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+      根据ID查询一条数据
+    -->
+    select id, name, origin, type, estimate_price, customer_id, creator_user_id, owner_user_id, 
+    gain_rate, total_amount, subtotal_val, discount_price, sales_price, due_date, create_time, 
+    update_time, update_user_id, status_id, total_price, nextstep, nextstep_time, delete_status, 
+    delete_user_id, delete_time, contacts_id, contract_address, description
+    from tb_crm_business
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+        查询所有的数据
+    -->
+    select id, name, origin, type, estimate_price, customer_id, creator_user_id, owner_user_id, 
+    gain_rate, total_amount, subtotal_val, discount_price, sales_price, due_date, create_time, 
+    update_time, update_user_id, status_id, total_price, nextstep, nextstep_time, delete_status, 
+    delete_user_id, delete_time, contacts_id, contract_address, description
+    from tb_crm_business
+  </select>
+       <!-- 基础列名列表 -->
+  <sql id="base_business_columns">
+     id,name,origin,type,estimate_price,customer_id,
+     creator_user_id,owner_user_id,gain_rate,total_amount,
+     subtotal_val,discount_price,sales_price,due_date,
+     create_time,update_time,update_user_id,status_id,
+     total_price,nextstep,nextstep_time,delete_status,
+     delete_user_id,delete_time,contacts_id,contract_address,
+     description
+  </sql>
+  
+ <!-- 获取总记录数 -->
+   <select id="count" resultType="integer">
+       select count(id) from tb_crm_business
+      <where>
+       <if test="condition!=null and !condition.isEmpty()">
+         <if test="condition.name!=null and condition.name!=''">
+             name like concat('%',#{condition.name},'%')           
+         </if>
+          
+          <if test="condition.delete_status!=null">
+             delete_status=#{condition.delete_status}   
+          </if>    
+       </if>
+      </where> 
+      
+   </select> 
+    <!-- 查询分页结果 -->  
+    <select id="findMapByPage" resultType="map">
+       select <include refid="base_business_columns"/>from tb_crm_business 
+          
+      	
+     <where>
+         <if test="condition!=null and !condition.isEmpty()">
+               <if test="condition.name!=null and condition.name!=''">
+                   name like concat('%',#{condition.name},'%')
+              </if>
+      
+         
+           <if test="condition.delete_status!=null">
+  				delete_status = #{condtion.delete_status}
+  		   </if>
+  	 </if>
+     </where>
+    	 order by create_time desc limit #{offset},#{pageSize}
+    </select>
+  
+  
+  
+  
+</mapper>

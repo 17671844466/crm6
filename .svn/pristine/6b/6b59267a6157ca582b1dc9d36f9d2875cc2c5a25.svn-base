@@ -1,0 +1,9 @@
+package com.zhidisoft.system.dao;
+
+import com.zhidisoft.base.dao.BaseDao;
+import com.zhidisoft.system.entity.ProductCategory;
+import java.util.List;
+
+public interface IProductCategoryDao extends BaseDao<ProductCategory>{
+   
+}

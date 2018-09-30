@@ -1,0 +1,17 @@
+package com.zhidisoft.system.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.zhidisoft.base.service.BaseService;
+import com.zhidisoft.system.entity.Customer;
+
+public interface ICustomerService extends BaseService<Customer>{
+
+	List<Map<String, Object>> findByPageMap(Integer page, Integer rows, Map<String,Object> condition);
+
+	List<Map<String, Object>> findByPageMaps(Integer page, Integer rows, Map<String, Object> condition);
+	Integer countpool(Map<String,Object> condition);
+}

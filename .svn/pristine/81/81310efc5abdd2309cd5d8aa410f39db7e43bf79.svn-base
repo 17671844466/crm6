@@ -1,0 +1,11 @@
+package com.zhidisoft.system.service.impl;
+
+import org.springframework.stereotype.Service;
+
+import com.zhidisoft.base.service.impl.BaseServiceImpl;
+import com.zhidisoft.system.entity.Contacts;
+import com.zhidisoft.system.service.IContactsService;
+@Service
+public class ContactsServiceImpl extends BaseServiceImpl<Contacts> implements IContactsService{
+
+}

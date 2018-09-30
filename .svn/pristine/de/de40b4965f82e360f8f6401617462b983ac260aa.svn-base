@@ -1,0 +1,167 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="<%=basePath%>">
+<title>任务信息版块</title>
+<%@include file="../script.html" %>
+</head>
+
+<body>
+<div id="tabs" data-options="region:'center',border:false,height:800" class="easyui-tabs">
+		<div data-options="iconCls:'icon-man'" id="tab1" title="任务">
+				<div class="theme-user-info-panel">
+					<div class="view-box">
+						视图：全部|我的任务|我分配的任务&nbsp;&nbsp;&nbsp;&nbsp;未启动|推迟|进行中|已完成|关闭的&nbsp;&nbsp;&nbsp;&nbsp;
+						今日截止|本周截止|本月截止|最近分配|最近更新&nbsp;&nbsp;&nbsp;&nbsp;回收站
+					</div>
+				</div>
+	<div class="taskbutton">
+			<div class="right" style="margin-left: 10px;">
+				<a class="easyui-linkbutton delete-button" data-options="iconCls:'icon-remove'">删除</a>
+				 <span class="dropdown-option"/>
+	                <select style="height: 30px;" class="taskbox" name="task1" id="taskId">
+	                      <option value="-1">任意字段</option> 
+	                </select>
+	          	</span>
+	          
+	           	<span class="dropdown-option"/>
+	                <select style="height: 30px;" name="task2" id="bussId">
+	                      <option value="-1">包含</option> 
+	                </select>
+	           </span>
+	           		<input type="text" class="easyui-textbox" style="width:150px;height: 30px;">
+				<a class="easyui-linkbutton search-button" data-options="iconCls:'icon-search'">搜索</a>
+				<a class="easyui-linkbutton add-button"  data-options="iconCls:'icon-add'" style="float: right;margin-right: 10px;">新建客户</a>
+				<a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-edit'"style="float: right;margin-right:20px;">客户工具</a>
+			</div>
+		</div>
+			<table id="dataList"></table>
+			<span>
+				
+			</span>
+	</div>
+	
+		<div id="tab1" title="统计">
+				统计
+			</div>
+			<div id="tab1" title="帮助">
+				
+					帮助
+				
+			
+			</div>
+	</div>		
+</body>
+<script type="text/javascript">
+
+	//删除方法
+	$(function(){
+		$(".delete-button").on('click',function(event){
+				event.preventDefault();
+				var rows=$("#dataList").datagrid("getChecked");
+				
+				if(!rows.length){
+					parent.$.messager.alert("警告","必需最少选择一行数据");
+					return;
+				}else{
+					parent.$.messager.confirm('操作提示','确定删除吗?',function(r){
+						if(r){
+							$.post("task/delete",
+									{"id":rows[0].id},
+									function(data){
+											alert(data.message);
+											$("#dataList").datagrid("reload");
+								},"json")
+							}
+						});
+					}
+			})
+		})
+
+	//下拉框查询方法
+	$(document).ready(function(){
+		$.post("task/findAll",
+			function(data){
+		$.each(data.data[1].keys,
+		function(index,obj){
+			var option = $("<option></option>");
+			option.html(obj);
+			option.attr("value",obj);
+			$("#taskId").append(option);
+		});
+	},
+		"json");
+	});
+	
+	 $(document).ready(function(){
+			$.post("task/findAll",
+				function(data){
+			$.each(data.data[2].values,
+			function(index,obj){
+				var option = $("<option></option>");
+				option.html(obj);
+				option.attr("value",obj);
+				$("#bussId").append(option);
+			});
+		},
+			"json");
+		}); 
+
+		//分页查询方法
+		$(function(){
+			$("#dataList").datagrid({
+				url:"task/findByPage",
+				pagination:true,
+				toolbar:"#toolbar",
+				rownumbers:true,
+				loadFilter:function(data){
+						if(data.success&&data){
+							return data.data;
+						}
+					},
+			    columns:[[
+					{field:'id',checkbox:true},
+					{field:'owner_user_id',title:'负责人',width:100},
+					{field:'about_users',title:'任务相关人',width:100},
+					{field:'subject',title:'主题',width:100},
+					{field:'due_date',title:'任务截止日期',width:100},
+					{field:'status',title:'状态',width:100,
+						formatter:function(value){
+							if(status == 1){
+								return "正常";
+							}else if(status == 0){
+								return "禁用";
+							}else{
+								return "已删除";
+							}
+						}
+					},
+					{field:'priority',title:'优先级',width:100},
+					{field:'send_email',title:'是否发送邮件通知',width:100},
+					{field:'description',title:'描述',width:100},
+					{field:'creator_user_id',title:'创建人',width:100},
+					{field:'create_date',title:'创建时间',width:100},
+					{field:'update_date',title:'更新时间',width:100},
+					{field:'isclose',title:'是否关闭',width:100},
+					{field:'delete status',title:'是否删除',width:100},
+					{field:'delete_user_id',title:'删除人',width:100},
+					{field:'delete_time',title:'删除时间',width:100},
+					{field:'operation',title:'操作',width:100,
+						formatter:function(value,row,index){
+							return '<a href="#">查看</a>&nbsp;&nbsp;&nbsp;' + '<a href="#">修改</a>&nbsp;&nbsp;&nbsp;' + '<a href="#">关闭</a>&nbsp;&nbsp;&nbsp;';	
+						}
+					}
+			    ]]
+				})
+			})
+</script>
+</body>
+</html>

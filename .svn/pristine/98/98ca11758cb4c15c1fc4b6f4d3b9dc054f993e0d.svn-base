@@ -1,0 +1,29 @@
+package com.zhidisoft.system.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zhidisoft.system.dao.IFunctionDao;
+import com.zhidisoft.system.entity.Function;
+import com.zhidisoft.system.entity.Role;
+import com.zhidisoft.system.service.IFunctionService;
+
+@Service
+public class FunctionServiceImpl implements IFunctionService{
+	
+	@Autowired
+	private IFunctionDao funcDao;
+
+	@Override
+	public List<Function> findByRoles(Integer parentId,List<Role> roles) {
+		List<Integer> roleIds = new ArrayList<>();
+		for(Role role : roles){
+			roleIds.add(role.getId());
+		}
+		return funcDao.findByParentId(roleIds,parentId,1);
+	}
+
+}

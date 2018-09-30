@@ -1,0 +1,165 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="<%=basePath%>">
+<title>增加线索</title>
+<meta charset="utf-8">
+<%@include file="../script.html" %>
+<script type="text/javascript" src="static/easyui/common.js">
+	</script>	
+<style type="text/css">
+    .layout-panel-west {
+        border-right: 1px solid #c5c5c5;
+    }
+</style>
+</head>
+<body>
+<div id="master-layout" style="height: 100%;width: 100%">
+<div id="addLeads" class="easyui-panel" title="添加线索"
+    style="width:100%;height:100%;padding:10px;background-color:white;" >
+    
+    <div id="addForm" class="easyui-panel" title="主要信息"
+    style="width:100%;height:100%;padding:10px;background-color: white;" >
+    		
+    		<form id="form" method="post">  
+                    <table cellpadding="100">  
+                        <tr style="height: 50px">  
+                            <td style="width: 200px;text-align: right;background-color:#fafafa ">负责人:</td>  
+                            <td style="width: 250px;"><input class="easyui-textbox" type="text" name="owner"  style="width: 200px"/></td>  
+                       		<td style="width: 200px;"><input type="button" value="放入线索池" class="easyui-linkbutton" style="width: 100px;height: 30px" style="width: 200px"/></td>
+                       		<td style="width: 200px;text-align: right;background-color:#fafafa ">公司名:</td> 
+                       		<td><input class="easyui-textbox" type="text" name="company" data-options="required:true" style="width: 200px"></input></td>
+                        </tr>  
+                        <tr style="height: 50px">  
+                           <td style="width: 200px;text-align: right;background-color:#fafafa ">来源:</td>  
+                            <td colspan="2"><select class="easyui-combobox" name="source" style="width: 172px;">  
+                           			<option value="0">--请选择--</option> 
+                                    <option value="1">网络</option>  
+                                    <option value="2">报刊</option>  
+                                    <option value="3">微信</option>  
+                                </select>  
+                             </td>  
+                             <td style="width: 200px;text-align: right;background-color:#fafafa ">联系人姓名:</td>  
+                            <td style="width: 250px;"><input class="easyui-textbox" type="text" name="contact" data-options="required:true" style="width: 200px"/></td>  
+                             
+                             
+                        </tr>  
+                        <tr style="height: 50px">  
+                           	<td style="width: 200px;text-align: right;background-color:#fafafa ">职位:</td> 
+                            <td colspan="2"><input class="easyui-textbox" type="text" name="job"  style="width: 200px"></input></td>  
+                       		<td style="width: 200px;text-align: right;background-color:#fafafa ">尊称:</td> 
+                       		<td ><select class="easyui-combobox" name="called" style="width: 172px;">  
+                           			<option value="0">--请选择--</option> 
+                                    <option value="1">先生</option>  
+                                    <option value="2">女士</option>  
+                                </select>  
+                             </td>  
+                        </tr>  
+                        <tr style="height: 50px">  
+                            <td style="width: 200px;text-align: right;background-color:#fafafa ">手机:</td> 
+                            <td colspan="2">
+                            <input class="easyui-textbox" validType='mobile' invalidMessage="请输入正确的手机号码 "  data-options="required:true" style="width: 200px"></input>
+                            </td>  
+                       		<td style="width: 200px;text-align: right;background-color:#fafafa ">邮箱:</td> 
+                            <td >
+                            <input class="easyui-textbox" validType='email'  invalidMessage="请输入正确的邮箱" style="width: 200px"></input>
+                            </td> 
+                        </tr>  
+                       
+                       <tr style="height: 50px">  
+                            <td style="width: 200px;text-align: right;background-color:#fafafa ">地址:</td> 
+                            <td colspan="4"><input class="easyui-textbox" type="text" name="address"  style="width: 200px"></input></td>  
+                       		
+                        </tr>  
+                       
+                        <tr style="height: 50px">  
+                            <td style="width: 200px;text-align: right;background-color:#fafafa ">下次联系时间:</td> 
+                            <td colspan="2"><input class="easyui-datebox" type="text" name="nextStepTime" style="width: 200px"></input></td>  
+                       		<td style="width: 200px;text-align: right;background-color:#fafafa ">下次联系内容:</td> 
+                            <td ><input class="easyui-textbox" type="text" name="nextStep"  style="width: 200px"></input></td> 
+                        </tr> 
+                        <tr style="height: 50px">  
+                            <td colspan="5">附加信息</td> 
+                        </tr> 
+                         <tr style="height: 50px">  
+                            <td style="width: 200px;text-align: right;background-color:#fafafa ">备注:</td> 
+                            <td colspan="4"><input class="easyui-textbox" type="text" name="note" style="width: 200px"></input></td>  
+                        </tr> 
+                        <tr style="height: 50px">  
+                            <td colspan="5" style="text-align: center;">
+                            <input id="saveBtn" type="button"   class="easyui-linkbutton save-button" style="width: 100px;height: 30px"  value="保存"></input>
+                            <input id="resetBtn" type="button"   class="easyui-linkbutton reset-button" style="width: 100px;height: 30px"  value="重置"></input>
+                             <input id="backBtn"  type="button"  class="easyui-linkbutton back-button"  style="width: 100px;height: 30px" value="返回"></input>
+                            </td>  
+                        </tr> 
+                    </table>  
+                </form>  
+    		
+    		
+	
+
+	</div>
+	
+
+</div>
+</div>
+	
+	
+	
+</body>
+<script type="text/javascript">
+
+			
+			$(function(){
+				//返回上一页
+				$("#backBtn").on('click',function(){  
+					window.location.replace("system/leads/leads");  
+			     })
+
+				//重置
+	    		$("#resetBtn").on("click",function(){
+	    			$("#form").form("reset");
+	    		})
+
+	    		//保存
+	    		$("#saveBtn").on("click",function(){
+					var isValid = $("#form").form("validate");
+					if(!isValid){
+						return;
+					}	
+					
+					$.post("system/leads/saveLeads",$("#form").serialize(),function(data){				
+						if(data.success){
+		       				parent.$.messager.alert({
+			       				title:"提示",
+			       				msg:data.msg,
+		       				}) 
+		       				window.location.replace("system/leads/leads");  				
+		     			}else{
+		    				$.messager.alert({
+			           			title:"提示",
+			           			msg:data.msg,
+		        			})
+		     			}
+					},"json")			
+				})
+
+	    	
+	    		
+	    		  		
+			     
+			});
+
+		
+
+
+</script>
+</html>

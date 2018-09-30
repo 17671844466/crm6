@@ -1,0 +1,372 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="<%=basePath%>">
+<title>线索</title>
+<meta charset="utf-8">
+<%@include file="../script.html" %>
+<style type="text/css">
+    .layout-panel-west {
+        border-right: 1px solid #c5c5c5;
+    }
+</style>
+</head>
+<body>
+<div id="master-layout" style="height: 100%;width: 100%">
+	<div id="tabs" data-options="region:'center',border:false,height:800" class="easyui-tabs">
+		<div id="tab1" title="线索">
+				<div class="theme-user-info-panel">
+					<div class="center" style="background-color: aqua;height: 50px;margin: -30px;padding-top: 25px">
+					<span style="font-size: 20px">视图:</span>
+					<a   id="searchAll" style="margin-left: 20px;font-size: 15px">全部</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+					<a   id="searchMy" style="margin-left: 20px;font-size: 15px">我负责的</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+					<a   id="" style="margin-left: 20px;font-size: 15px">下属负责的</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+					<a   id="" style="margin-left: 20px;font-size: 15px">下属创建</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+					<a   id="" style="margin-left: 20px;font-size: 15px">已转换线索</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+					<a   id="" style="margin-left: 20px;font-size: 15px">今日需联系</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+					<a   id="" style="margin-left: 20px;font-size: 15px">本周需联系</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+					<a   id="" style="margin-left: 20px;font-size: 15px">7日未联系</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+					<a   id="recycle" style="margin-left: 20px;font-size: 15px">回收站</a>
+					</div>
+				</div>
+
+			
+			<div class="right" style="margin-left: 10px;">
+				 <span class="dropdown-option">
+	                <select style="height: 30px;" class="taskbox" name="task1" id="taskId">
+	                      <option value="-1">任意字段</option> 
+	                </select>
+	          	</span>
+	          
+	           	<span class="dropdown-option">
+	                <select style="height: 30px;" name="task2" id="bussId">
+	                      <option value="-1">包含</option> 
+	                </select>
+	           </span>
+	           	<input type="text" class="easyui-textbox" style="width:150px;height: 30px;" />
+				<a class="easyui-linkbutton search-button" data-options="iconCls:'icon-search'">搜索</a>
+				<a id="addLeads" class="easyui-linkbutton add-button" data-options="iconCls:'icon-add'">新增线索</a>
+				<a id="removeBtn" class="easyui-linkbutton delete-button" data-options="iconCls:'icon-remove'">删除</a>
+			</div>
+				
+					
+				<table id="dataList"></table>
+				
+
+			</div>
+	
+			<div id="tab2" title="线索池">
+					
+			
+			<div class="right" style="margin-left: 10px;">
+				 <span class="dropdown-option" >
+	                <select style="height: 30px;" class="taskbox" name="task1" id="taskId">
+	                      <option value="-1">任意字段</option> 
+	                </select>
+	          	</span>
+	          
+	           	<span class="dropdown-option" >
+	                <select style="height: 30px;" name="task2" id="bussId">
+	                      <option value="-1">包含</option> 
+	                </select>
+	           </span>
+	           	<input type="text" class="easyui-textbox" style="width:150px;height: 30px;">
+				<a class="easyui-linkbutton search-button" data-options="iconCls:'icon-search'">搜索</a>
+				<a id="addLeads2" class="easyui-linkbutton add-button" data-options="iconCls:'icon-add'">新增线索</a>
+				<a id="removeBtn2" class="easyui-linkbutton delete-button" data-options="iconCls:'icon-remove'">删除</a>
+			</div>
+	
+			
+		<table id="dataList2"></table>
+					
+			</div>
+			
+			
+			
+			<div id="tab3" title="统计">
+				
+					统计
+				
+			</div>
+			<div id="tab4" title="帮助">
+				
+			</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+			
+			
+
+		/*
+		删除和批量删除
+		*/
+
+		$(function(){
+			$("#removeBtn").on('click',function(event){
+				event.preventDefault();
+				var rows = $("#dataList").datagrid("getChecked");
+				
+				if(!rows.length){
+					parent.$.messager.alert("警告","必须至少选择一行数据");
+					return;
+				}
+				else {
+					  $.messager.confirm('操作提示', '确定要删除吗?', function(r){
+
+						  var userId;
+						  $.each(rows, function (i, n) { 
+
+							  if (i == 0) { 
+
+							   userId = n.id; 
+
+							   } else { 
+
+								   userId += "," + n.id; 
+
+							   } 
+
+							   }); 
+							  							
+						  
+							if (r){
+								
+								$.post("system/leads/deleteLeads","id="+userId,function(data){
+									$.messager.alert({
+					           			title:"提示",
+					           			msg:data.message,
+				        			});
+				        			if (data.data=="1") {
+				        				doSearch("condition[deleteStatus]=0");
+									}else if (data.data=="2") {
+										doSearch("condition[deleteStatus]=1");
+									}
+									
+					           		
+					           	},"json")
+					        
+					           
+							}
+					   }); 
+
+				}
+	
+			});
+		});
+
+		function doSearch(condition){     	   
+			$("#dataList").datagrid({
+				url : "system/leads/findByPage?"+condition,
+				pagination : true,
+				toolbar : "#toolbar",
+				rownumbers : true,
+				idField : "id",
+				loadFilter : function(data){
+					if(data && data.success){
+						return data.data;
+					}
+				},
+				columns : [[
+			        {field:'id',checkbox:true},
+			        {field:'name',title:'公司名',width:80},
+			        {field:'contacts_name',title:'联系人姓名',width:80},
+			        {field:'saltname',title:'尊称',width:80},
+			        {field:'mobile',title:'手机',width:100},
+			        {field:'nextstep_time',title:'下次联系时间',width:100},
+			        {field:'nextstep',title:'下次联系内容',width:100},
+			        {field:'user1',title:'负责人',width:80},
+			        {field:'user2',title:'创建人',width:80},
+			        {field:'create_time',title:'创建时间',width:100},
+			        {field:'expTime',title:'距到期天数',width:80},
+			        {field:'operation',title:'操作',formatter:function(value,row,index){
+
+			        	return '<a href="javascript:void(0)" onclick="detail('+row.id+',\''+row.user1+'\')">查看    |</a>'
+			        	+'  <a href="javascript:void(0)" onclick="edit('+row.id+',\''+row.user1+'\')">修改    |</a>'
+			        	+'  <a href="javascript:void(0)" onclick="conversion('+row.id+')">转换</a>'
+
+			        }},
+
+			    ]]
+			});
+			}
+
+
+		
+		$(function(){
+			doSearch("condition[deleteStatus]=0");
+		})
+		
+		
+		//searchAll
+		$(function() {
+			$("#searchAll").on('click',function(){
+				doSearch("condition[deleteStatus]=0");
+				});
+		});
+
+
+		
+		
+		//recycle
+		$(function() {
+			$("#recycle").on('click',function(){
+				doSearch("condition[deleteStatus]=1");
+				});
+		});
+
+
+
+		//跳转添加线索
+		$(function(){
+			$("#addLeads").on('click',function(){   
+				window.location.replace("system/leads/addLeads"); 
+		     })
+			});
+
+		//查看详情
+		 function detail(id,ownerName){
+			 window.location.replace("system/leads/detail?id="+id+"&ownerName="+ownerName)	
+
+			
+    } 
+
+
+		//修改线索
+		 		
+		function edit(id,ownerName){
+		 	 window.location.replace("system/leads/edit?id="+id+"&ownerName="+ownerName)	          
+		 		 	
+		 	} 
+		 		
+	</script>
+	<script type="text/javascript">
+	$(function(){
+		$("#removeBtn2").on('click',function(event){
+			event.preventDefault();
+			var rows = $("#dataList2").datagrid("getChecked");
+			
+			if(!rows.length){
+				parent.$.messager.alert("警告","必须至少选择一行数据");
+				return;
+			}
+			else {
+				  $.messager.confirm('操作提示', '确定要删除吗?', function(r){
+
+					  var userId;
+					  $.each(rows, function (i, n) { 
+
+						  if (i == 0) { 
+
+						   userId = n.id; 
+
+						   } else { 
+
+							   userId += "," + n.id; 
+
+						   } 
+
+						   }); 
+						  							
+					  
+						if (r){
+							
+							$.post("system/leads/deleteLeads","id="+userId,function(data){
+								$.messager.alert({
+				           			title:"提示",
+				           			msg:data.message,
+			        			});
+			        			if (data.data=="1") {
+			        				doSearch("condition[deleteStatus]=0");
+								}else if (data.data=="2") {
+									doSearch("condition[deleteStatus]=1");
+								}
+								
+				           		
+				           	},"json")
+				        
+				           
+						}
+				   }); 
+
+			}
+
+		});
+	});
+
+	function doSearchInPool(condition){     	   
+		$("#dataList2").datagrid({
+			url : "system/leads/findByPageInPool?"+condition,
+			pagination : true,
+			toolbar : "#toolbar",
+			rownumbers : true,
+			idField : "id",
+			loadFilter : function(data){
+				if(data && data.success){
+					return data.data;
+				}
+			},
+			columns : [[
+		        {field:'id',checkbox:true},
+		        {field:'name',title:'公司名',width:80},
+		        {field:'contacts_name',title:'联系人姓名',width:80},
+		        {field:'saltname',title:'尊称',width:80},
+		        {field:'mobile',title:'手机',width:100},
+		        {field:'nextstep_time',title:'下次联系时间',width:100},
+		        {field:'nextstep',title:'下次联系内容',width:100},
+		        {field:'user2',title:'创建人',width:80},
+		        {field:'create_time',title:'创建时间',width:80},
+		        {field:'expTime',title:'距到期天数',width:60},
+		        {field:'operation',title:'操作',formatter:function(value,row,index){
+		        	return '<a href="javascript:void(0)" onclick="detail('+row.id+',\''+row.user1+'\')">查看    |</a>'
+		        	+'  <a href="javascript:void(0)" onclick="edit('+row.id+',\''+row.user1+'\')">修改    |</a>'
+		        	+'  <a href="javascript:void(0)" onclick="receive('+row.id+')">领取</a>'
+		        }},
+
+		    ]]
+		});
+		}
+
+	$(function(){
+		$("#tabs").tabs({
+			onSelect: function(){
+				doSearchInPool("condition[deleteStatus]=0"),
+				doSearch("condition[deleteStatus]=0");
+			}
+			});
+	})
+
+	//跳转添加线索
+		$(function(){
+			$("#addLeads2").on('click',function(){   
+				window.location.replace("system/leads/addLeads"); 
+		     })
+			});
+
+	//领取线索
+	function receive(id){
+		$.post("system/leads/receive","id="+id,function(data){
+			$.messager.alert({
+       			title:"提示",
+       			msg:data.message,
+			});
+			if (data.data=="1") {
+				doSearchInPool("condition[deleteStatus]=0");
+			}
+			
+       	},"json")     
+		 	
+			} ;
+	
+
+	
+	</script>
+</html>

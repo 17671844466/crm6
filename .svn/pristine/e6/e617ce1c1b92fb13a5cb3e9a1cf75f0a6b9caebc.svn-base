@@ -1,0 +1,13 @@
+package com.zhidisoft.system.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.zhidisoft.base.service.BaseService;
+import com.zhidisoft.system.entity.Contacts;
+
+public interface IContactsService extends BaseService<Contacts>{
+
+	List<Map<String, Object>> findByPageMap(Integer offset, Integer rows, Map<String, Object> condition);
+
+}

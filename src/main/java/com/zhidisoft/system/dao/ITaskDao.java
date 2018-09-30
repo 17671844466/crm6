@@ -1,0 +1,28 @@
+package com.zhidisoft.system.dao;
+
+import com.zhidisoft.base.dao.BaseDao;
+import com.zhidisoft.system.entity.Task;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+public interface ITaskDao extends BaseDao<Task>{
+	
+	/**
+	 * 查询所有
+	 * @return
+	 */
+	List<Map<String, Object>> findAlls();
+	
+	/**
+	 * 查询总数
+	 */
+	int count(@Param("condition")Map<String, Object>condition);
+	
+	/**
+	 * 分页查询
+	 */
+	List<Map<String, Object>> findByPage(@Param("offset")Integer pageNumber,@Param("pageSize")Integer pageSize,@Param("condition")Map<String, Object>condition);
+
+}

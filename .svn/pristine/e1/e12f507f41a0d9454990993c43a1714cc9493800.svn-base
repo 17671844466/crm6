@@ -1,0 +1,26 @@
+package com.zhidisoft.system.service;
+
+import com.zhidisoft.base.service.BaseService;
+import com.zhidisoft.system.entity.User;
+
+public interface IUserService extends BaseService<User>{
+	/**
+	 * 保存用户信息
+	 * @param user
+	 * @return
+	 */
+	boolean save(User user);
+	
+	/**
+	 * 登录方法
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	User login(String username,String password);
+
+	User get(Integer userId);
+
+	
+
+}

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.IProductDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.Product">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="creator_user_id" jdbcType="INTEGER" property="creatorUserId" />
+    <result column="cost_price" jdbcType="REAL" property="costPrice" />
+    <result column="suggested_price" jdbcType="REAL" property="suggestedPrice" />
+    <result column="development_team" jdbcType="VARCHAR" property="developmentTeam" />
+    <result column="development_time" jdbcType="TIMESTAMP" property="developmentTime" />
+    <result column="link" jdbcType="VARCHAR" property="link" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    delete from tb_crm_product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.Product">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    insert into tb_crm_product (id, category_id, name, 
+      creator_user_id, cost_price, suggested_price, 
+      development_team, development_time, link, 
+      create_time, update_time, description
+      )
+    values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{creatorUserId,jdbcType=INTEGER}, #{costPrice,jdbcType=REAL}, #{suggestedPrice,jdbcType=REAL}, 
+      #{developmentTeam,jdbcType=VARCHAR}, #{developmentTime,jdbcType=TIMESTAMP}, #{link,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.Product">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    update tb_crm_product
+    set category_id = #{categoryId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      creator_user_id = #{creatorUserId,jdbcType=INTEGER},
+      cost_price = #{costPrice,jdbcType=REAL},
+      suggested_price = #{suggestedPrice,jdbcType=REAL},
+      development_team = #{developmentTeam,jdbcType=VARCHAR},
+      development_time = #{developmentTime,jdbcType=TIMESTAMP},
+      link = #{link,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, category_id, name, creator_user_id, cost_price, suggested_price, development_team, 
+    development_time, link, create_time, update_time, description
+    from tb_crm_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, category_id, name, creator_user_id, cost_price, suggested_price, development_team, 
+    development_time, link, create_time, update_time, description
+    from tb_crm_product
+  </select>
+  
+  
+  
+  
+  
+  
+</mapper>

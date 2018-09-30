@@ -1,0 +1,135 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<base href="<%=basePath%>">
+<title>信息添加修改</title>
+<%@include file="../script.html"%>
+</head>
+<body>
+	<div id="center" style="margin:0 auto; width:400px; height:100px;">
+			
+				<form id="addupdateuser" name="form" action="">
+
+					<!-- 第一行 -->
+
+					<img alt="" src=""><br><br>
+					
+
+					<!-- 第二行 -->
+
+					头像上传: <input type="file" /><br><br>
+					<hr>
+					<br>
+					<span id="info"></span><br>
+
+					<!-- 第三行 -->
+
+					用户名: <input id="username" name="username" class="easyui-textbox"
+						prompt="输入用户名" style="width: 300px"><br><br>
+
+				<!-- 	第四行 -->
+
+					手机号: <input id="phone" name="phone" class="easyui-textbox"
+						prompt="输入手机号" style="width: 300px"><br><br>
+
+					<!-- 第五行 -->
+
+					工作邮箱: <input id="email" name="email" class="easyui-textbox"
+						prompt="输入邮箱地址" style="width: 300px"><br><br>
+
+					<!-- 第六行 -->
+
+					备注信息: <input id="usernote" name="usernote" class="easyui-textbox"
+						multiline="true" style="width: 300px"><br><br>
+
+					<!-- 第7行 -->
+
+					创建时间: <input id="createtime" class="easyui-textbox" readonly="true"
+						style="width: 300px"><br> <br>
+						
+						<a id="cc" class="easyui-linkbutton button-line-blue"
+						onclick="a()"
+						>提交</a>
+						<a href="#" class="easyui-linkbutton button-line-blue">取消</a>
+
+
+				</form> 
+
+			</div>
+	
+	<script type="text/javascript">
+
+	function check(value, pattern){
+		var regexp = new  RegExp(pattern);
+		return regexp.test(value);
+	};
+
+	function a(){
+	
+	 $("form").submit(); 
+	
+		}
+	
+ $(function(){
+		
+	$("#addupdateuser").on("submit",function(event) 
+	{
+			event.preventDefault();
+
+	
+				//对表单数据进行校验
+		if (!check($("input[name=username]").val(),'^[a-zA-Z0-9]{5,20}$')) 
+	{
+			$("#info").html("用户名必须是数字英文字母组合，且长度为5到20位").css({
+				"font-weight" : "bold",
+				"color" : "#F00"});return;
+		}
+
+	if (!check($("input[name=phone]").val(),
+	'^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$')) 
+	{
+		$("#info").html("手机号码不正确").css({
+	"font-weight" : "bold",
+		"color" : "#F00"});
+	return;
+	}
+	if (!check($("input[name=email]").val(),
+	'^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$')) 
+	{
+	$("#info").html("邮箱地址不正确").css({
+		"font-weight" : "bold",
+		"color" : "#F00"});
+		return;
+	} 
+				
+
+			//发送ajax请求
+			 $.post("logon", $(this).serialize(), function(data) {
+				if (data && data.success) {
+					//window.location.href = "index";
+					return;
+				} else if (data && !data.success) {
+					$("#info").html(data.message).css({
+						"font-weight" : "bold",
+						"color" : "#F00"
+					});
+				}
+
+			}, "json"); 
+
+	})  
+	});
+	
+	</script>
+</body>
+</html>
+

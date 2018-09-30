@@ -1,0 +1,10 @@
+package com.zhidisoft.system.service.impl;
+
+import com.zhidisoft.base.service.impl.BaseServiceImpl;
+import com.zhidisoft.system.entity.Leads;
+import com.zhidisoft.system.entity.Product;
+import com.zhidisoft.system.service.IProductService;
+
+public class ProductServiceImpl extends BaseServiceImpl<Product> implements IProductService{
+
+}

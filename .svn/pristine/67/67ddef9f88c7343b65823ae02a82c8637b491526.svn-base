@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.IFunctionDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.Function">
+    <!--
+      将实体类与表关联
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="funcName" jdbcType="VARCHAR" property="funcname" />
+    <result column="funcURL" jdbcType="VARCHAR" property="funcurl" />
+    <result column="funcCode" jdbcType="VARCHAR" property="funccode" />
+    <result column="parentId" jdbcType="INTEGER" property="parentid" />
+    <result column="funcType" jdbcType="INTEGER" property="functype" />
+    <result column="iconClass" jdbcType="VARCHAR" property="iconclass" />
+    <result column="iconURL" jdbcType="VARCHAR" property="iconurl" />
+    <result column="funcNote" jdbcType="VARCHAR" property="funcnote" />
+    <result column="sortNum" jdbcType="INTEGER" property="sortnum" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="createBy" jdbcType="INTEGER" property="createby" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateBy" jdbcType="INTEGER" property="updateby" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <!-- 常用片段 -->
+  <sql id="base_function_comlumns">
+  	f.id,f.funcName,f.funcURL,f.funcCode,f.parentId,f.funcType,f.iconClass,f.iconURL,f.funcNote,f.sortNum,f.state,f.createBy,f.createTime,f.updateBy,f.updateTime
+  </sql>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+     根据主键删除一行
+    -->
+    delete from tb_system_function
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.Function">
+    <!--
+     插入一行数据
+    -->
+    insert into tb_system_function (id, funcName, funcURL, 
+      funcCode, parentId, funcType, 
+      iconClass, iconURL, funcNote, 
+      sortNum, state, createBy, 
+      createTime, updateBy, updateTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{funcname,jdbcType=VARCHAR}, #{funcurl,jdbcType=VARCHAR}, 
+      #{funccode,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, #{functype,jdbcType=INTEGER}, 
+      #{iconclass,jdbcType=VARCHAR}, #{iconurl,jdbcType=VARCHAR}, #{funcnote,jdbcType=VARCHAR}, 
+      #{sortnum,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{createby,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.Function">
+    <!--
+      根据主键修改 一行数据
+    -->
+    update tb_system_function
+    set funcName = #{funcname,jdbcType=VARCHAR},
+      funcURL = #{funcurl,jdbcType=VARCHAR},
+      funcCode = #{funccode,jdbcType=VARCHAR},
+      parentId = #{parentid,jdbcType=INTEGER},
+      funcType = #{functype,jdbcType=INTEGER},
+      iconClass = #{iconclass,jdbcType=VARCHAR},
+      iconURL = #{iconurl,jdbcType=VARCHAR},
+      funcNote = #{funcnote,jdbcType=VARCHAR},
+      sortNum = #{sortnum,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      createBy = #{createby,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateBy = #{updateby,jdbcType=INTEGER},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+     根据主键查询一条数据
+    -->
+    select id, funcName, funcURL, funcCode, parentId, funcType, iconClass, iconURL, funcNote, 
+    sortNum, state, createBy, createTime, updateBy, updateTime
+    from tb_system_function
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      查询所有的数据
+    -->
+    select id, funcName, funcURL, funcCode, parentId, funcType, iconClass, iconURL, funcNote, 
+    sortNum, state, createBy, createTime, updateBy, updateTime
+    from tb_system_function
+  </select>
+  
+  
+  <!-- 通过权限父id以及用户信息获取功能列表 -->
+  <select id="findByParentId" resultMap="BaseResultMap">
+  <!-- 查询去除重复  function 所有的字段-->
+  	select distinct <include refid="base_function_comlumns"/> from tb_system_function f
+  	<where>
+  		<choose>
+  		<!-- 判断状态是否有值 -->
+  			<when test="state!=null">
+  				f.state = #{state}
+  			</when>
+  			<otherwise>
+  				f.state = 1
+  			</otherwise>
+  		</choose>
+  		<choose>
+  		<!-- 判断父Id是否为空 -->
+  			<when test="parentId!=null">
+  				and f.parentId = #{parentId}
+  			</when>
+  			<otherwise>
+  			<!-- 以上不成立那么父id为空 -->
+  				and f.parentId is null
+  			</otherwise>
+  		</choose>
+  		<!-- 用户角色不为空 -->
+  		<if test="roleIds!=null and !roleIds.isEmpty()">
+  		<!-- 在角色与权限的中间表中查找角色对应的权限 -->
+  			and f.Id in (select distinct funcid from tb_system_role_function where roleId in 
+  			<foreach collection="roleIds" item="id" open="(" close=")" separator=",">
+  				#{id}
+  			</foreach>
+  			)
+  		</if>
+  	</where>
+  </select>
+  
+  <!-- 通过权限父id以及用户信息获取功能列表 -->
+  <select id="findByRoleIds" resultMap="BaseResultMap">
+  	select distinct <include refid="base_function_comlumns"/> from tb_system_function f
+  	<where>
+  		<choose>
+  			<when test="state!=null">
+  				f.state = #{state}
+  			</when>
+  			<otherwise>
+  				f.state = 1
+  			</otherwise>
+  		</choose>
+  		<if test="roleIds!=null and !roleIds.isEmpty()">
+  			and f.Id in (select distinct funcid from tb_system_role_function where roleId in 
+  			<foreach collection="roleIds" item="id" open="(" close=")" separator=",">
+  				#{id}
+  			</foreach>
+  			)
+  		</if>
+  	</where>
+  </select>
+  
+</mapper>

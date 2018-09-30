@@ -1,0 +1,14 @@
+package com.zhidisoft.common.support;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+/**
+ * 自定义JacksonObjectMapper
+ * @author Lu Jianliang
+ *
+ */
+public class JacksonObjectMapper extends ObjectMapper{
+	
+	private static final long serialVersionUID = 1L;
+	
+}

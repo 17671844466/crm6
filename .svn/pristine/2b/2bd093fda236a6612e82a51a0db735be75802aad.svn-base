@@ -1,0 +1,81 @@
+package com.zhidisoft.system.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zhidisoft.common.JsonResult;
+import com.zhidisoft.system.entity.Function;
+import com.zhidisoft.system.entity.Role;
+import com.zhidisoft.system.service.IFunctionService;
+import com.zhidisoft.system.service.IUserService;
+
+/**
+ * 负责权限管理的文本层
+ * 
+ * @author Administrator
+ *
+ */
+@RequestMapping("/manage")
+@Controller
+public class Manage {
+	
+	@Autowired
+	private IFunctionService funcService;
+	
+	@Autowired
+	private IUserService userService;
+	
+	/**
+	 * 跳转到权限页面
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/manage")
+	private String manage() {
+
+		return "system/manage";
+	}
+
+	/**
+	 * 获取用户树状菜单
+	 */
+	@RequestMapping("/menu")
+	@ResponseBody
+	public JsonResult menu(Integer id, HttpSession session) {
+		System.out.println("--------菜单进来了-------");
+		// 从Session中获取角色信息 以角色信息
+		List<Role> roles = (List<Role>) session.getAttribute("roles");
+		//激将用户id和角色信息 进行查询
+		List<Function> list = funcService.findByRoles(id, roles);
+		//创建一个map集合 用来存放查询到的信息
+		List<Map<String, Object>> menu = new ArrayList<>();
+		// 把功能权限信息转换为符合easyui-tree结构的数据
+		for (Function function : list) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("id", function.getId());
+			map.put("text", function.getFuncname());
+			if (function.getFuncurl() != null && !function.getFuncurl().isEmpty()) {
+				map.put("st ate", "open");
+				Map<String, Object> attributes = new HashMap<>();
+				attributes.put("url", function.getFuncurl());
+				map.put("attributes", attributes);
+			} else {
+				map.put("state", "closed");
+			}
+			menu.add(map);
+
+		}
+
+		return JsonResult.buildSuccessResult("加载成功", menu);
+	}
+
+}

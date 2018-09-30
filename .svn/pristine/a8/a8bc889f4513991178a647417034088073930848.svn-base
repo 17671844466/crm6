@@ -1,0 +1,15 @@
+package com.zhidisoft.system.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zhidisoft.base.service.impl.BaseServiceImpl;
+import com.zhidisoft.system.dao.IMessageDao;
+import com.zhidisoft.system.entity.Message;
+import com.zhidisoft.system.service.IMessageService;
+@Service
+public class IMessageServiceImpl extends BaseServiceImpl<Message> implements IMessageService
+{
+	@Autowired
+	private IMessageDao messageDao;
+}

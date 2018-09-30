@@ -1,0 +1,123 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="<%=basePath%>">
+<title>增加线索</title>
+<meta charset="utf-8">
+<%@include file="../script.html" %>
+<script type="text/javascript" src="static/easyui/common.js">
+	</script>	
+<style type="text/css">
+    .layout-panel-west {
+        border-right: 1px solid #c5c5c5;
+    }
+</style>
+</head>
+<body>
+<div id="master-layout" style="height: 100%;width: 100%">
+    
+   
+    		<form id="form" method="post">  
+                    <table cellpadding="100">  
+                        <tr style="height: 50px">  
+                            <td style="width: 200px;text-align: right;background-color:#fafafa ">负责人:</td>  
+                            <td style="width: 250px;">
+                            <input  id="username" class="easyui-textbox" name="ownerUserId" data-options="readonly:true"  style="width: 200px" value="${requestScope.ownerUser }" >
+                           
+                            </input>
+                            </td>  
+                       		<td style="width: 200px;">
+                       		<input type="button" value="放入线索池" class="easyui-linkbutton" style="width: 100px;height: 30px" style="width: 200px"/>
+                       		</td>
+                       		<td style="width: 200px;text-align: right;background-color:#fafafa ">公司名:</td> 
+                       		<td>
+                       		<input class="easyui-textbox" type="text" name="name" data-options="readonly:true" style="width: 200px" value="${requestScope.leads.name }">
+                       			
+                       		</input>
+                       		</td>
+                        </tr>  
+                        <tr style="height: 50px">  
+                           <td style="width: 200px;text-align: right;background-color:#fafafa ">来源:</td>  
+                            <td colspan="2">
+                            <input class="easyui-textbox" name="source" style="width: 172px;" data-options="readonly:true" value="${requestScope.leads.source }"/>  
+                             </td>  
+                             <td style="width: 200px;text-align: right;background-color:#fafafa ">联系人姓名:</td>  
+                            <td style="width: 250px;">
+                            <input class="easyui-textbox" type="text" name="contactsName" data-options="readonly:true" style="width: 200px" value="${requestScope.leads.contactsName }"/>
+                            </td>  
+                        </tr>  
+                        <tr style="height: 50px">  
+                           	<td style="width: 200px;text-align: right;background-color:#fafafa ">职位:</td> 
+                            <td colspan="2">
+                            	<input class="easyui-textbox" type="text" name="position"  style="width: 200px" data-options="readonly:true" value="${requestScope.leads.position }"></input>
+                            </td>  
+                       		<td style="width: 200px;text-align: right;background-color:#fafafa ">尊称:</td> 
+                       		<td >
+                       		<input class="easyui-textbox" name="saltname" style="width: 172px;" data-options="readonly:true"  value="${requestScope.leads.saltname }"/>  
+                           			
+                             </td>  
+                        </tr>  
+                        <tr style="height: 50px">  
+                            <td style="width: 200px;text-align: right;background-color:#fafafa ">手机:</td> 
+                            <td colspan="2">
+                            <input class="easyui-textbox" name='mobile'   style="width: 200px" data-options="readonly:true" value="${requestScope.leads.mobile }"></input>
+                            </td>  
+                       		<td style="width: 200px;text-align: right;background-color:#fafafa " >邮箱:</td> 
+                            <td >
+                            <input class="easyui-textbox"   name='email' style="width: 200px" data-options="readonly:true" value="${requestScope.leads.email }"></input>
+                            </td> 
+                        </tr>  
+                       
+                       <tr style="height: 50px">  
+                            <td style="width: 200px;text-align: right;background-color:#fafafa ">地址:</td> 
+                            <td colspan="4">
+                            <input class="easyui-textbox" type="text" name="address"  style="width: 200px" data-options="readonly:true" value="${requestScope.leads.address }"></input>
+                            </td>  
+                       		
+                        </tr>  
+                       
+                        <tr style="height: 50px">  
+                            <td style="width: 200px;text-align: right;background-color:#fafafa ">下次联系时间:</td> 
+                            <td colspan="2">
+                            <input class="easyui-textbox"  name="nextstepTime" style="width: 200px" data-options="readonly:true" value="${requestScope.nextstepTime }"></input>
+                            </td>  
+                       		<td style="width: 200px;text-align: right;background-color:#fafafa ">下次联系内容:</td> 
+                            <td >
+                            <input class="easyui-textbox" type="text" name="nextstep"  style="width: 200px" data-options="readonly:true"  value="${requestScope.leads.nextstep }"></input>
+                            </td> 
+                        </tr> 
+                        <tr style="height: 50px">  
+                            <td colspan="5" style="padding-left: 30px">附加信息:</td> 
+                        </tr> 
+                         <tr style="height: 50px">  
+                            <td style="width: 200px;text-align: right;background-color:#fafafa ">备注:</td> 
+                            <td colspan="4">
+                            <input class="easyui-textbox" type="text" name="leadnote" style="width: 200px" data-options="readonly:true"  value="${requestScope.leads.leadnote }"></input>
+                            </td>  
+                        </tr> 
+                        
+                    </table>  
+                </form>  
+    		
+    		
+	
+
+	</div>
+	
+
+	
+</body>
+<script type="text/javascript">
+
+		
+
+</script>
+</html>>

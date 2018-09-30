@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.IContractDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.Contract">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="business_id" jdbcType="INTEGER" property="businessId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="due_time" jdbcType="BIGINT" property="dueTime" />
+    <result column="owner_user_id" jdbcType="INTEGER" property="ownerUserId" />
+    <result column="creator_user_id" jdbcType="INTEGER" property="creatorUserId" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+    <result column="start_date" jdbcType="BIGINT" property="startDate" />
+    <result column="end_date" jdbcType="BIGINT" property="endDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="delete_status" jdbcType="INTEGER" property="deleteStatus" />
+    <result column="delete_user_id" jdbcType="INTEGER" property="deleteUserId" />
+    <result column="delete_time" jdbcType="BIGINT" property="deleteTime" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    delete from tb_crm_contract
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.Contract">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    insert into tb_crm_contract (id, number, business_id, 
+      price, due_time, owner_user_id, 
+      creator_user_id, description, create_time, 
+      update_time, start_date, end_date, 
+      status, delete_status, delete_user_id, 
+      delete_time, content)
+    values (#{id,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, #{businessId,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL}, #{dueTime,jdbcType=BIGINT}, #{ownerUserId,jdbcType=INTEGER}, 
+      #{creatorUserId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=BIGINT}, #{startDate,jdbcType=BIGINT}, #{endDate,jdbcType=BIGINT}, 
+      #{status,jdbcType=VARCHAR}, #{deleteStatus,jdbcType=INTEGER}, #{deleteUserId,jdbcType=INTEGER}, 
+      #{deleteTime,jdbcType=BIGINT}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.Contract">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    update tb_crm_contract
+    set number = #{number,jdbcType=VARCHAR},
+      business_id = #{businessId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      due_time = #{dueTime,jdbcType=BIGINT},
+      owner_user_id = #{ownerUserId,jdbcType=INTEGER},
+      creator_user_id = #{creatorUserId,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      start_date = #{startDate,jdbcType=BIGINT},
+      end_date = #{endDate,jdbcType=BIGINT},
+      status = #{status,jdbcType=VARCHAR},
+      delete_status = #{deleteStatus,jdbcType=INTEGER},
+      delete_user_id = #{deleteUserId,jdbcType=INTEGER},
+      delete_time = #{deleteTime,jdbcType=BIGINT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, number, business_id, price, due_time, owner_user_id, creator_user_id, 
+    description, create_time, update_time, start_date, end_date, status, delete_status, 
+    delete_user_id, delete_time, content
+    from tb_crm_contract
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, number, business_id, price, due_time, owner_user_id, creator_user_id, 
+    description, create_time, update_time, start_date, end_date, status, delete_status, 
+    delete_user_id, delete_time, content
+    from tb_crm_contract
+  </select>
+  
+  <select id="findAllMap" resultType="map">
+  	select tcc.id, tcc.number, tcc.business_id, tcc.price, tcc.due_time, tcc.owner_user_id, tcc.creator_user_id, tcc.description, tcc.create_time, tcc.update_time, tcc.start_date, tcc.end_date, tcc.status, tcc.delete_status, tcc.delete_user_id, tcc.delete_time, tcc.content,tsu.username owner,tcc_1.name contact,tcc_2.name customer 
+  	from tb_crm_contract tcc 
+  	left join tb_system_user tsu on tcc.owner_user_id = tsu.id 
+  	left join tb_crm_business tcb on tcc.business_id = tcb.id 
+  	left join tb_crm_customer tcc_2 on tcb.customer_id = tcc_2.id 
+  	left join tb_crm_contacts tcc_1 on tcc_2.id = tcc_1.customer_id  
+    <where>
+    	<if test="condition !=null and condition!=''">
+    		<if test="condition.delstatus!=null and condition.delstatus!=''">
+    			delete_status = 0
+    		</if>
+    	</if>
+    </where>
+    limit #{offset},#{pageSize}
+  </select>
+  
+  <select id="count" resultType="Integer">
+  	select count(tcc.id) from tb_crm_contract tcc 
+  	left join tb_system_user tsu on tcc.owner_user_id = tsu.id 
+  	left join tb_crm_business tcb on tcc.business_id = tcb.id 
+  	left join tb_crm_customer tcc_2 on tcb.customer_id = tcc_2.id 
+  	left join tb_crm_contacts tcc_1 on tcc_2.id = tcc_1.customer_id 
+    <where>
+    	<if test="condition !=null and condition!=''">
+    		<if test="condition.delstatus!=null and condition.delstatus!=''">
+    			delete_status = 0
+    		</if>
+    	</if>
+    </where>
+  </select>
+</mapper>

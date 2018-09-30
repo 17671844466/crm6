@@ -1,0 +1,236 @@
+package com.zhidisoft.system.entity;
+
+import java.util.Date;
+
+public class Message {
+    /**
+     *
+     * 当前属性由 MyBatis Generator 自动生成.
+     * 当前属性对应的数据库表字段为： tb_crm_message.id
+     *
+     * @mbg.generated
+     */
+    private Integer id;
+
+    /**
+     *
+     * 当前属性由 MyBatis Generator 自动生成.
+     * 当前属性对应的数据库表字段为： tb_crm_message.to_user_id
+     *
+     * @mbg.generated
+     */
+    private Integer toUserId;
+
+    /**
+     *
+     * 当前属性由 MyBatis Generator 自动生成.
+     * 当前属性对应的数据库表字段为： tb_crm_message.from_user_id
+     *
+     * @mbg.generated
+     */
+    private Integer fromUserId;
+
+    /**
+     *
+     * 当前属性由 MyBatis Generator 自动生成.
+     * 当前属性对应的数据库表字段为： tb_crm_message.read_time
+     *
+     * @mbg.generated
+     */
+    private Date readTime;
+
+    /**
+     *
+     * 当前属性由 MyBatis Generator 自动生成.
+     * 当前属性对应的数据库表字段为： tb_crm_message.send_time
+     *
+     * @mbg.generated
+     */
+    private Date sendTime;
+
+    /**
+     *
+     * 当前属性由 MyBatis Generator 自动生成.
+     * 当前属性对应的数据库表字段为： tb_crm_message.status
+     *
+     * @mbg.generated
+     */
+    private Integer status;
+
+    /**
+     *
+     * 当前属性由 MyBatis Generator 自动生成.
+     * 当前属性对应的数据库表字段为： tb_crm_message.content
+     *
+     * @mbg.generated
+     */
+    private String content;
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 该方法返回数据库表中列 tb_crm_message.id 的值
+     *
+     * @return 返回 tb_crm_message.id 的值
+     *
+     * @mbg.generated
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 当前方法用于设置数据库表中列 tb_crm_message.id 的值
+     *
+     * @param id 用于指定列 tb_crm_message.id 的值
+     *
+     * @mbg.generated
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 该方法返回数据库表中列 tb_crm_message.to_user_id 的值
+     *
+     * @return 返回 tb_crm_message.to_user_id 的值
+     *
+     * @mbg.generated
+     */
+    public Integer getToUserId() {
+        return toUserId;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 当前方法用于设置数据库表中列 tb_crm_message.to_user_id 的值
+     *
+     * @param toUserId 用于指定列 tb_crm_message.to_user_id 的值
+     *
+     * @mbg.generated
+     */
+    public void setToUserId(Integer toUserId) {
+        this.toUserId = toUserId;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 该方法返回数据库表中列 tb_crm_message.from_user_id 的值
+     *
+     * @return 返回 tb_crm_message.from_user_id 的值
+     *
+     * @mbg.generated
+     */
+    public Integer getFromUserId() {
+        return fromUserId;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 当前方法用于设置数据库表中列 tb_crm_message.from_user_id 的值
+     *
+     * @param fromUserId 用于指定列 tb_crm_message.from_user_id 的值
+     *
+     * @mbg.generated
+     */
+    public void setFromUserId(Integer fromUserId) {
+        this.fromUserId = fromUserId;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 该方法返回数据库表中列 tb_crm_message.read_time 的值
+     *
+     * @return 返回 tb_crm_message.read_time 的值
+     *
+     * @mbg.generated
+     */
+    public Date getReadTime() {
+        return readTime;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 当前方法用于设置数据库表中列 tb_crm_message.read_time 的值
+     *
+     * @param readTime 用于指定列 tb_crm_message.read_time 的值
+     *
+     * @mbg.generated
+     */
+    public void setReadTime(Date readTime) {
+        this.readTime = readTime;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 该方法返回数据库表中列 tb_crm_message.send_time 的值
+     *
+     * @return 返回 tb_crm_message.send_time 的值
+     *
+     * @mbg.generated
+     */
+    public Date getSendTime() {
+        return sendTime;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 当前方法用于设置数据库表中列 tb_crm_message.send_time 的值
+     *
+     * @param sendTime 用于指定列 tb_crm_message.send_time 的值
+     *
+     * @mbg.generated
+     */
+    public void setSendTime(Date sendTime) {
+        this.sendTime = sendTime;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 该方法返回数据库表中列 tb_crm_message.status 的值
+     *
+     * @return 返回 tb_crm_message.status 的值
+     *
+     * @mbg.generated
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 当前方法用于设置数据库表中列 tb_crm_message.status 的值
+     *
+     * @param status 用于指定列 tb_crm_message.status 的值
+     *
+     * @mbg.generated
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 该方法返回数据库表中列 tb_crm_message.content 的值
+     *
+     * @return 返回 tb_crm_message.content 的值
+     *
+     * @mbg.generated
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * 当前方法由 MyBatis Generator 自动生成.
+     * 当前方法用于设置数据库表中列 tb_crm_message.content 的值
+     *
+     * @param content 用于指定列 tb_crm_message.content 的值
+     *
+     * @mbg.generated
+     */
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
+    }
+}

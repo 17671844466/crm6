@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.ICustomerDao">
+	<resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.Customer">
+		<!-- 警告 - @mbg.generated 注意：此元素由MyBatis Generator自动生成, 请勿修改. -->
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="owner_user_id" jdbcType="INTEGER" property="ownerUserId" />
+		<result column="creator_user_id" jdbcType="INTEGER" property="creatorUserId" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="origin" jdbcType="VARCHAR" property="origin" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="zip_code" jdbcType="VARCHAR" property="zipCode" />
+		<result column="industry" jdbcType="VARCHAR" property="industry" />
+		<result column="annual_revenue" jdbcType="VARCHAR" property="annualRevenue" />
+		<result column="ownership" jdbcType="VARCHAR" property="ownership" />
+		<result column="rating" jdbcType="VARCHAR" property="rating" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="delete_status" jdbcType="INTEGER" property="deleteStatus" />
+		<result column="is_locked" jdbcType="INTEGER" property="isLocked" />
+		<result column="delete_user_id" jdbcType="INTEGER" property="deleteUserId" />
+		<result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		<!-- 警告 - @mbg.generated 注意：此元素由MyBatis Generator自动生成, 请勿修改. -->
+		delete from tb_crm_customer
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.zhidisoft.system.entity.Customer">
+		<!-- 警告 - @mbg.generated 注意：此元素由MyBatis Generator自动生成, 请勿修改. -->
+		insert into tb_crm_customer (id, owner_user_id, creator_user_id,
+		name, origin, address,
+		zip_code, industry, annual_revenue,
+		ownership, rating, create_time,
+		update_time, delete_status, is_locked,
+		delete_user_id, delete_time)
+		values (#{id,jdbcType=INTEGER}, #{ownerUserId,jdbcType=INTEGER},
+		#{creatorUserId,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+		#{zipCode,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR},
+		#{annualRevenue,jdbcType=VARCHAR},
+		#{ownership,jdbcType=VARCHAR}, #{rating,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}, #{deleteStatus,jdbcType=INTEGER},
+		#{isLocked,jdbcType=INTEGER},
+		#{deleteUserId,jdbcType=INTEGER}, #{deleteTime,jdbcType=TIMESTAMP})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.Customer">
+		<!-- 警告 - @mbg.generated 注意：此元素由MyBatis Generator自动生成, 请勿修改. -->
+		update tb_crm_customer
+		set owner_user_id = #{ownerUserId,jdbcType=INTEGER},
+		creator_user_id = #{creatorUserId,jdbcType=INTEGER},
+		name = #{name},
+		origin = #{origin},
+		address = #{address},
+		zip_code = #{zipCode},
+		industry = #{industry},
+		annual_revenue = #{annualRevenue},
+		ownership = #{ownership},
+		rating = #{rating},
+		create_time = #{createTime},
+		update_time = #{updateTime},
+		delete_status = #{deleteStatus},
+		is_locked = #{isLocked},
+		delete_user_id = #{deleteUserId,jdbcType=INTEGER},
+		delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		<!-- 警告 - @mbg.generated 注意：此元素由MyBatis Generator自动生成, 请勿修改. -->
+		select id, owner_user_id, creator_user_id, name, origin, address,
+		zip_code, industry,
+		annual_revenue, ownership, rating, create_time, update_time, delete_status,
+		is_locked,
+		delete_user_id, delete_time
+		from tb_crm_customer
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		<!-- 警告 - @mbg.generated 注意：此元素由MyBatis Generator自动生成, 请勿修改. -->
+		select id, owner_user_id, creator_user_id, name, origin, address,
+		zip_code, industry,
+		annual_revenue, ownership, rating, create_time, update_time, delete_status,
+		is_locked,
+		delete_user_id, delete_time
+		from tb_crm_customer
+	</select>
+	<select id="count" resultType="Integer">
+		select count(tcc.id) from tb_crm_customer tcc join tb_system_user tsu
+		on tcc.owner_user_id = tsu.id join tb_system_user tsu_1 on
+		tcc.creator_user_id = tsu_1.id
+		<where>
+			<if test="condition!=null and !condition.isEmpty()">
+				<if test="condition.name!=null and condition.name!=''">
+					name like concat('%',#{condition.name},'%')
+				</if>
+				<if test="condition.delete_status!=null">
+					and tcc.delete_status = #{condition.delete_status}
+				</if>
+				<if test="condition.userid!=null">
+					and tcc.owner_user_id = #{condition.userid}
+				</if>
+				<if test="condition.owneruser!=null">
+					and tcc.owner_user_id is null
+				</if>
+				<if test="condition.mydown!=null">
+					and tcc.owner_user_id in (select tce_1.user_id from tb_crm_employee tce_1 where
+					tce_1.position_id
+					= (select tcp_2.id from tb_crm_position tcp_2 where tcp_2.parent_id
+					= (select tcp_1.id from tb_crm_position tcp_1 WHERE tcp_1.id
+					=(select tce.position_id from tb_crm_employee tce where tce.user_id
+					= 2)))) 
+				</if>
+				<if test="condition.mydowncreate!=null">
+					and tcc.creator_user_id in (select tce_1.user_id from tb_crm_employee tce_1 where
+					tce_1.position_id
+					= (select tcp_2.id from tb_crm_position tcp_2 where tcp_2.parent_id
+					= (select tcp_1.id from tb_crm_position tcp_1 WHERE tcp_1.id
+					=(select tce.position_id from tb_crm_employee tce where tce.user_id
+					= ${condition.mydowncreate})))) 
+				</if>
+			</if>
+		</where>
+		order by create_time desc
+	</select>
+	<select id="findByPageMap" resultType="map">
+		select tcc.id, tcc.owner_user_id, tcc.creator_user_id, tcc.name,
+		tcc.origin, tcc.address, tcc.zip_code, tcc.industry,
+		tcc.annual_revenue, tcc.ownership, tcc.rating, tcc.create_time,
+		tcc.update_time, tcc.delete_status, tcc.is_locked,
+		tcc.delete_user_id, tcc.delete_time,tsu.username owner_user,tsu_1.username creator_user
+		from tb_crm_customer tcc join tb_system_user tsu on tcc.owner_user_id
+		= tsu.id join tb_system_user tsu_1 on tcc.creator_user_id = tsu_1.id
+		<where>
+			<if test="condition!=null and !condition.isEmpty()">
+				<if test="condition.name!=null and condition.name!=''">
+					name like concat('%',#{condition.name},'%')
+				</if>
+				<if test="condition.delete_status!=null">
+					and tcc.delete_status = #{condition.delete_status}
+				</if>
+				<if test="condition.userid!=null">
+					and tcc.owner_user_id = #{condition.userid}
+				</if>
+				<if test="condition.owneruser!=null">
+					and tcc.owner_user_id is null
+				</if>
+				<if test="condition.mydown!=null">
+					and tcc.owner_user_id in (select tce_1.user_id from tb_crm_employee tce_1 where
+					tce_1.position_id
+					= (select tcp_2.id from tb_crm_position tcp_2 where tcp_2.parent_id
+					= (select tcp_1.id from tb_crm_position tcp_1 WHERE tcp_1.id
+					=(select tce.position_id from tb_crm_employee tce where tce.user_id
+					= ${condition.mydown})))) 
+				</if>
+				<if test="condition.mydowncreate!=null">
+					and tcc.creator_user_id in (select tce_1.user_id from tb_crm_employee tce_1 where
+					tce_1.position_id
+					= (select tcp_2.id from tb_crm_position tcp_2 where tcp_2.parent_id
+					= (select tcp_1.id from tb_crm_position tcp_1 WHERE tcp_1.id
+					=(select tce.position_id from tb_crm_employee tce where tce.user_id
+					= ${condition.mydowncreate})))) 
+				</if>
+			</if>
+		</where>
+		order by create_time desc limit #{offset},#{pageSize}
+	</select>
+	<select id="findByPageMaps" resultType="map">
+		select tcc.id, tcc.owner_user_id, tcc.creator_user_id, tcc.name,
+		tcc.origin, tcc.address, tcc.zip_code, tcc.industry,
+		tcc.annual_revenue, tcc.ownership, tcc.rating, tcc.create_time,
+		tcc.update_time, tcc.delete_status, tcc.is_locked,
+		tcc.delete_user_id, tcc.delete_time,tsu_1.username creator_user
+		from tb_crm_customer tcc left join tb_system_user tsu_1 on
+		tcc.creator_user_id = tsu_1.id
+		<where>
+			<if test="condition!=null and !condition.isEmpty()">
+				<if test="condition.name!=null and condition.name!=''">
+					name like concat('%',#{condition.name},'%')
+				</if>
+				<if test="condition.delete_status!=null">
+					and tcc.delete_status = #{condition.delete_status}
+				</if>
+				<if test="condition.userid!=null">
+					and tcc.owner_user_id = #{condition.userid}
+				</if>
+				<if test="condition.owneruser!=null">
+					and tcc.owner_user_id is null
+				</if>
+			</if>
+		</where>
+		order by create_time desc limit #{offset},#{pageSize}
+	</select>
+	<select id="countpool" resultType="Integer">
+		select count(tcc.id) from tb_crm_customer tcc left join tb_system_user
+		tsu_1 on tcc.creator_user_id = tsu_1.id
+		<where>
+			<if test="condition!=null and !condition.isEmpty()">
+				<if test="condition.name!=null and condition.name!=''">
+					name like concat('%',#{condition.name},'%')
+				</if>
+				<if test="condition.delete_status!=null">
+					and tcc.delete_status = #{condition.delete_status}
+				</if>
+				<if test="condition.userid!=null">
+					and tcc.owner_user_id = #{condition.userid}
+				</if>
+				<if test="condition.owneruser!=null">
+					and tcc.owner_user_id is null
+				</if>
+			</if>
+		</where>
+	</select>
+	<insert id="saveReturnId" parameterType="com.zhidisoft.system.entity.Customer" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		insert into tb_crm_customer (owner_user_id, creator_user_id,
+		name, origin, address,
+		zip_code, industry, annual_revenue,
+		ownership, rating, create_time,
+		update_time, delete_status, is_locked,
+		delete_user_id, delete_time)
+		values (#{ownerUserId,jdbcType=INTEGER},
+		#{creatorUserId,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+		#{zipCode,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR},
+		#{annualRevenue,jdbcType=VARCHAR},
+		#{ownership,jdbcType=VARCHAR}, #{rating,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}, #{deleteStatus,jdbcType=INTEGER},
+		#{isLocked,jdbcType=INTEGER},
+		#{deleteUserId,jdbcType=INTEGER}, #{deleteTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<update id="deleteStatus">
+		update tb_crm_customer set delete_status = 1 where id = #{id}
+	</update>
+	
+	<select id="getCustomerById" resultType="map">
+		select tcc.id, tcc.owner_user_id, tcc.creator_user_id, tcc.name,
+		tcc.origin, tcc.address, tcc.zip_code, tcc.industry,
+		tcc.annual_revenue, tcc.ownership, tcc.rating, tcc.create_time,
+		tcc.update_time, tcc.delete_status, tcc.is_locked,
+		tcc.delete_user_id, tcc.delete_time,tsu_1.username creator_user,tsu_2.username owner_user,
+		tcc_2.name contact,tcc_2.post,tcc_2.saltname,tcc_2.telephone,tcc_2.email,tcc_2.qq_no,tcc_2.description,tcc_2.id contid,tcc_2.creator_user_id creatoruserid
+		from tb_crm_customer tcc left join tb_system_user tsu_1 on
+		tcc.creator_user_id = tsu_1.id left join tb_system_user tsu_2 on tcc.owner_user_id = tsu_2.id
+		join tb_crm_contacts tcc_2 on tcc.id = tcc_2.customer_id where tcc.id = #{id}
+	</select>
+	
+	<select id="getCustomerByName" resultType="com.zhidisoft.system.entity.User">
+	   	select * from tb_system_user where username  = #{name}
+	</select>
+</mapper>

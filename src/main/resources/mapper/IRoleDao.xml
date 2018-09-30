@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.IRoleDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.Role">
+    <!--
+      将表与实体关联到一起
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roleName" jdbcType="VARCHAR" property="rolename" />
+    <result column="roleNote" jdbcType="VARCHAR" property="rolenote" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="createBy" jdbcType="INTEGER" property="createby" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateBy" jdbcType="INTEGER" property="updateby" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  
+  <!-- 基础列名列表 -->
+  <sql id="base_role_columns">
+  	id, roleName, roleNote, state, createBy, createTime, updateBy, updateTime
+  </sql>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+      根据id删除一个信息-->
+    delete from tb_system_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.Role">
+    <!--
+     插入一条数据
+      -->
+    insert into tb_system_role (id, roleName, roleNote, 
+      state, createBy, createTime, 
+      updateBy, updateTime)
+    values (#{id,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{rolenote,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{createby,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updateby,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.Role">
+    <!--
+     根据id修改一条数据
+    -->
+    update tb_system_role
+    set roleName = #{rolename,jdbcType=VARCHAR},
+      roleNote = #{rolenote,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      createBy = #{createby,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateBy = #{updateby,jdbcType=INTEGER},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+     根据id查询一条数据
+    -->
+    select id, roleName, roleNote, state, createBy, createTime, updateBy, updateTime
+    from tb_system_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      查询所有的数据
+    -->
+    select id, roleName, roleNote, state, createBy, createTime, updateBy, updateTime
+    from tb_system_role where state=1
+  </select>
+  	
+  	<!-- 查询所有的数据返回map -->
+  	<select id="findAll1" resultType="map">
+  	 select 
+		r.id, r.roleName, r.roleNote, r.state, r.createBy, r.createTime, r.updateBy, r.updateTime,
+		u.username as crename,us.username AS upname
+    from tb_system_role r LEFT JOIN tb_system_user u ON u.id=r.createBy 
+	LEFT JOIN tb_system_user us ON us.id=r.updateBy
+  	</select>
+   <!-- 根据用户id获取对应的角色信息 -->
+  <select id="findByUserId" resultMap="BaseResultMap">
+  	select distinct <include refid="base_role_columns"/> from tb_system_role 
+  	<where>
+  		<choose>
+  			<when test="state!=null">
+	  			state = #{state}
+	  		</when>
+	  		<otherwise>
+	  			state = 1
+	  		</otherwise>
+  		</choose>
+  		<if test="userId!=null">
+
+  			and id in (select roleid from tb_system_user_role where userid = #{userId})
+
+  		</if>
+  	</where>
+  </select>
+  <!-- 查询总记录数 -->
+  <select id="count" resultType="integer">
+  select count(id) from tb_system_role
+  </select>
+
+  <!-- 分页查询完整 -->
+  <select id="findByPage" resultType="map">
+ select 
+		r.id, r.roleName, r.roleNote, r.state, r.createBy, r.createTime, r.updateBy, r.updateTime,
+		u.username as crename,us.username AS upname
+    from tb_system_role r LEFT JOIN tb_system_user u ON u.id=r.createBy 
+	LEFT JOIN tb_system_user us ON us.id=r.updateBy
+  limit #{offset},#{pageSize}
+  </select>  
+<!-- 保存一个对象返回对象保存后的id saveRrtunId-->
+<insert id="saveRrtunId" useGeneratedKeys="true" keyProperty="id" >
+   
+    insert into tb_system_role (id, roleName, roleNote, 
+      state, createBy, createTime, 
+      updateBy, updateTime)
+    values (#{id,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{rolenote,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{createby,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updateby,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.IFunctionDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.Function">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="funcName" jdbcType="VARCHAR" property="funcname" />
+    <result column="funcURL" jdbcType="VARCHAR" property="funcurl" />
+    <result column="funcCode" jdbcType="VARCHAR" property="funccode" />
+    <result column="parentId" jdbcType="INTEGER" property="parentid" />
+    <result column="funcType" jdbcType="INTEGER" property="functype" />
+    <result column="iconClass" jdbcType="VARCHAR" property="iconclass" />
+    <result column="iconURL" jdbcType="VARCHAR" property="iconurl" />
+    <result column="funcNote" jdbcType="VARCHAR" property="funcnote" />
+    <result column="sortNum" jdbcType="INTEGER" property="sortnum" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="createBy" jdbcType="INTEGER" property="createby" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateBy" jdbcType="INTEGER" property="updateby" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    delete from tb_system_function
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.Function">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    insert into tb_system_function (id, funcName, funcURL, 
+      funcCode, parentId, funcType, 
+      iconClass, iconURL, funcNote, 
+      sortNum, state, createBy, 
+      createTime, updateBy, updateTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{funcname,jdbcType=VARCHAR}, #{funcurl,jdbcType=VARCHAR}, 
+      #{funccode,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, #{functype,jdbcType=INTEGER}, 
+      #{iconclass,jdbcType=VARCHAR}, #{iconurl,jdbcType=VARCHAR}, #{funcnote,jdbcType=VARCHAR}, 
+      #{sortnum,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{createby,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.Function">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    update tb_system_function
+    set funcName = #{funcname,jdbcType=VARCHAR},
+      funcURL = #{funcurl,jdbcType=VARCHAR},
+      funcCode = #{funccode,jdbcType=VARCHAR},
+      parentId = #{parentid,jdbcType=INTEGER},
+      funcType = #{functype,jdbcType=INTEGER},
+      iconClass = #{iconclass,jdbcType=VARCHAR},
+      iconURL = #{iconurl,jdbcType=VARCHAR},
+      funcNote = #{funcnote,jdbcType=VARCHAR},
+      sortNum = #{sortnum,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      createBy = #{createby,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateBy = #{updateby,jdbcType=INTEGER},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, funcName, funcURL, funcCode, parentId, funcType, iconClass, iconURL, funcNote, 
+    sortNum, state, createBy, createTime, updateBy, updateTime
+    from tb_system_function
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, funcName, funcURL, funcCode, parentId, funcType, iconClass, iconURL, funcNote, 
+    sortNum, state, createBy, createTime, updateBy, updateTime
+    from tb_system_function
+  </select>
+</mapper>

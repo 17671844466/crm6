@@ -1,0 +1,120 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="<%=basePath%>">
+<title>线索</title>
+<meta charset="utf-8">
+<%@include file="../script.html" %>
+<style type="text/css">
+    .layout-panel-west {
+        border-right: 1px solid #c5c5c5;
+    }
+</style>
+</head>
+<body>
+<div id="master-layout">
+		
+			
+		<div id="tabs" data-options="region:'center',border:false,height:800" class="easyui-tabs">
+		<div id="tab1" title="线索">
+				<div class="theme-user-info-panel">
+					<div class="center">
+						视图：全部|我负责的|下属负责|下属创建
+					</div>
+				</div>
+
+				<div id="user-info-more"
+					class="easyui-tabs theme-tab-blue-line theme-tab-body-unborder"
+					data-options="tools:'#tab-tools',fit:true">
+					<div id="toolbar">
+					<div class="left">搜索</div>
+					<div class="right">
+						<a class="easyui-linkbutton add-button">新增</a>
+						<a href="javascript:void(0)" class="easyui-linkbutton edit-button">修改</a>
+						<a class="easyui-linkbutton delete-button">删除</a>
+					</div>
+		</div>
+		<table id="dataList"></table>
+				</div>
+			</div>
+			<div id="tab1" title="线索池">
+				线索池
+			</div>
+			<div id="tab1" title="统计">
+				
+					统计
+				
+			</div>
+			<div id="tab1" title="帮助">
+				
+			</div>
+			</div>
+		<!--右侧功能展示区结束-->
+		<div id="topWindow" style="overflow: hidden;"></div>
+		
+	</div>
+</body>
+<script type="text/javascript">
+		$(function(){
+			$(".edit-button").on('click',function(event){
+				event.preventDefault();
+				var rows = $("#dataList").datagrid("getChecked");
+				
+				if(!rows.length){
+					parent.$.messager.alert("警告","必须至少选择一行数据");
+					return;
+				}
+				//获取去选中第一行的leadsId
+				var leadsId = rows[0].leadsId;
+				
+				parent.openDialog("修改线索信息","system/users/edit?userId="+userId,function(){
+					$("#dataList").datagrid("reload");
+				});
+			});
+		});
+	
+		$(function(){
+			$("#dataList").datagrid({
+				url : "system/users/findByPage",
+				pagination : true,
+				toolbar : "#toolbar",
+				rownumbers : true,
+				loadFilter : function(data){
+					if(data && data.success){
+						return data.data;
+					}
+				},
+				columns : [[
+			        {field:'userId',checkbox:true},
+			        {field:'username',title:'用户名',width:100},
+			        {field:'phone',title:'电话号码',width:100},
+			        {field:'email',title:'电子信箱',width:100},
+			        {field:'status',title:'用户状态',width:100,formatter:function(value){
+			        	if(value == 1){
+			        		return "正常";
+			        	}else if(value == 0){
+			        		return "禁用";
+			        	}else{
+			        		return "已删除";
+			        	}
+			        }},
+			        {field:'note',title:'备注信息',width:100},
+			        {field:'createTime',title:'创建时间',width:100},
+			        {field:'updateTime',title:'更新时间',width:100},
+			        {field:'operation',title:'操作',width:100,formatter:function(value,row,index){
+			        	return "<a href=''>修改</a> | <a href=''>删除</a>"
+			        }},
+
+			    ]]
+			});
+		})
+	</script>
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.IProductImagesDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.ProductImages">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="is_main" jdbcType="INTEGER" property="isMain" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="save_name" jdbcType="VARCHAR" property="saveName" />
+    <result column="size" jdbcType="VARCHAR" property="size" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="sortnum" jdbcType="INTEGER" property="sortnum" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    delete from tb_crm_product_images
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.ProductImages">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    insert into tb_crm_product_images (id, product_id, is_main, 
+      name, save_name, size, 
+      path, create_time, sortnum
+      )
+    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{isMain,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{saveName,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, 
+      #{path,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{sortnum,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.ProductImages">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    update tb_crm_product_images
+    set product_id = #{productId,jdbcType=INTEGER},
+      is_main = #{isMain,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      save_name = #{saveName,jdbcType=VARCHAR},
+      size = #{size,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      sortnum = #{sortnum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, product_id, is_main, name, save_name, size, path, create_time, sortnum
+    from tb_crm_product_images
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, product_id, is_main, name, save_name, size, path, create_time, sortnum
+    from tb_crm_product_images
+  </select>
+</mapper>

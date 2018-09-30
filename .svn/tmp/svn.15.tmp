@@ -1,0 +1,45 @@
+package com.zhidisoft.system.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.zhidisoft.base.service.BaseService;
+import com.zhidisoft.system.entity.Function;
+import com.zhidisoft.system.entity.User;
+
+public interface IUserService extends BaseService<User>{
+	/**
+	 * 保存用户信息
+	 * @param user
+	 * @return
+	 */
+	boolean save(User user);
+	
+	/**
+	 * 登录方法
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	User login(String username,String password);
+
+	/**
+	 * 为指定的用户分配角色
+	 * @param userId
+	 * @param roleIds
+	 * @return
+	 */
+	boolean assignRoles(Integer userId, String roleIds);
+	
+	
+	
+	/**
+	 * 查询所有权限
+	 */
+	List<Map<String, String>> getFunctionAll();
+
+}
+
+
+
+

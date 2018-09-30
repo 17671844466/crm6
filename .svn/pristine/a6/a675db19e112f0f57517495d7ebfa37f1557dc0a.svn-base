@@ -1,0 +1,79 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="<%=basePath%>">
+<title>站内信</title>
+<meta charset="utf-8">
+<%@include file="../script.html" %>
+<style type="text/css">
+    .layout-panel-west {
+        border-right: 1px solid #c5c5c5;
+    }
+</style>
+</head>
+<body>
+	<h4>站内信</h4>
+	<a href="#" id="write" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">写信</a>
+	<div id="tabs" data-options="region:'center',border:false,height:800" class="easyui-tabs">
+		<div id="tab1" data-options="iconCls:'icon-man'"title="收件箱">
+			<!-- 收件箱内容 -->
+			<div ></div>
+			<table id="dataList"></table>
+		</div>
+		<div id="tab2" title="发件箱">
+		
+		</div>
+		
+	</div>
+</body>
+<script type="text/javascript">
+
+//添加所有站内信数据
+$(function(){
+	$("#dataList").datagrid({
+		url : "system/users/findByPage",
+		pagination : true,
+		toolbar : ".toolbar",
+		rownumbers : true,
+		loadFilter : function(data){
+			if(data && data.success){
+				return data.data;
+			}
+		},
+		columns : [[
+	        {field:'userId',checkbox:true},
+	        {field:'username',title:'用户名',width:100},
+	        {field:'phone',title:'电话号码',width:100},
+	        {field:'email',title:'电子信箱',width:150},
+	        {field:'status',title:'用户状态',width:50,formatter:function(value){
+	        	if(value == 1){
+	        		return "正常";
+	        	}else if(value == 0){
+	        		return "禁用";
+	        	}else{
+	        		return "已删除";
+	        	}
+	        }},
+	        {field:'note',title:'备注信息',width:150},
+	        {field:'createTime',title:'创建时间',width:100},
+	        {field:'updateTime',title:'更新时间',width:100},
+	        {field:'operation',title:'操作',width:100,formatter:function(value,row,index){
+	        	return "<a href=''>修改</a> | <a href=''>删除</a>"
+	        }},
+
+	    ]]
+	});
+})
+
+
+</script>
+
+</html>

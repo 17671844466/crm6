@@ -1,0 +1,23 @@
+package com.zhidisoft.system.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zhidisoft.base.service.impl.BaseServiceImpl;
+import com.zhidisoft.system.dao.ITaskDao;
+import com.zhidisoft.system.entity.Task;
+import com.zhidisoft.system.service.ITaskService;
+@Service
+public class TaskServiceImpl extends BaseServiceImpl<Task> implements ITaskService{
+	@Autowired
+	ITaskDao taskDao;
+
+	@Override
+	public List<Map<String, Object>> findAlls() {
+		return taskDao.findAlls();
+	}
+	
+}

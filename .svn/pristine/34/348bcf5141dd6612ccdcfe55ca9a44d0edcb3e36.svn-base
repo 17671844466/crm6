@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.ICustomerDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.Customer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="owner_user_id" jdbcType="INTEGER" property="ownerUserId" />
+    <result column="creator_user_id" jdbcType="INTEGER" property="creatorUserId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="origin" jdbcType="VARCHAR" property="origin" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="zip_code" jdbcType="VARCHAR" property="zipCode" />
+    <result column="industry" jdbcType="VARCHAR" property="industry" />
+    <result column="annual_revenue" jdbcType="VARCHAR" property="annualRevenue" />
+    <result column="ownership" jdbcType="VARCHAR" property="ownership" />
+    <result column="rating" jdbcType="VARCHAR" property="rating" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_status" jdbcType="INTEGER" property="deleteStatus" />
+    <result column="is_locked" jdbcType="INTEGER" property="isLocked" />
+    <result column="delete_user_id" jdbcType="INTEGER" property="deleteUserId" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    delete from tb_crm_customer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.Customer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    insert into tb_crm_customer (id, owner_user_id, creator_user_id, 
+      name, origin, address, 
+      zip_code, industry, annual_revenue, 
+      ownership, rating, create_time, 
+      update_time, delete_status, is_locked, 
+      delete_user_id, delete_time)
+    values (#{id,jdbcType=INTEGER}, #{ownerUserId,jdbcType=INTEGER}, #{creatorUserId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{zipCode,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{annualRevenue,jdbcType=VARCHAR}, 
+      #{ownership,jdbcType=VARCHAR}, #{rating,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteStatus,jdbcType=INTEGER}, #{isLocked,jdbcType=INTEGER}, 
+      #{deleteUserId,jdbcType=INTEGER}, #{deleteTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zhidisoft.system.entity.Customer">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    update tb_crm_customer
+    set owner_user_id = #{ownerUserId,jdbcType=INTEGER},
+      creator_user_id = #{creatorUserId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      origin = #{origin,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      zip_code = #{zipCode,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      annual_revenue = #{annualRevenue,jdbcType=VARCHAR},
+      ownership = #{ownership,jdbcType=VARCHAR},
+      rating = #{rating,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_status = #{deleteStatus,jdbcType=INTEGER},
+      is_locked = #{isLocked,jdbcType=INTEGER},
+      delete_user_id = #{deleteUserId,jdbcType=INTEGER},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, owner_user_id, creator_user_id, name, origin, address, zip_code, industry, 
+    annual_revenue, ownership, rating, create_time, update_time, delete_status, is_locked, 
+    delete_user_id, delete_time
+    from tb_crm_customer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      警告 - @mbg.generated
+    注意：此元素由MyBatis Generator自动生成, 请勿修改.
+    -->
+    select id, owner_user_id, creator_user_id, name, origin, address, zip_code, industry, 
+    annual_revenue, ownership, rating, create_time, update_time, delete_status, is_locked, 
+    delete_user_id, delete_time
+    from tb_crm_customer
+  </select>
+</mapper>

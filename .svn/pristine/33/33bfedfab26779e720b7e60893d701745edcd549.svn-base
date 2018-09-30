@@ -1,0 +1,37 @@
+package com.zhidisoft.system.dao;
+
+import com.zhidisoft.base.dao.BaseDao;
+import com.zhidisoft.system.entity.Function;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+public interface IFunctionDao extends BaseDao<Function>{
+	/**
+	 * 通过角色id获取该角色对应的功能权限信息
+	 * @param roleIds
+	 * @return
+	 */
+	List<Function> findByParentId(@Param("roleIds")List<Integer> roleIds, @Param("parentId")Integer parentId,  @Param("state")Integer state);
+	
+	/**
+	 * 通过父权限id以及角色id获取对应的权限信息
+	 * @param roleIds
+	 * @param parentId
+	 * @param status
+	 * @return
+	 */
+	List<Function> findByRoleIds(@Param("roleIds")List<Integer> roleIds, @Param("state")Integer state);
+	
+	/**
+	 * 查询所有的权限
+	 */
+	List<Map<String, String>> getAll();
+/**
+ * 查询出所有没有父类的权限
+ * @return
+ */
+	List<Function> getNOparentId();
+	
+}

@@ -1,0 +1,16 @@
+package com.zhidisoft.system.dao;
+
+import com.zhidisoft.base.dao.BaseDao;
+import com.zhidisoft.system.entity.Contacts;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+public interface IContactsDao extends BaseDao<Contacts>{
+
+	List<Map<String, Object>> findByPageMap(@Param("offset")Integer offset, @Param("pageSize")Integer rows,@Param("condition") Map<String, Object> condition);
+	
+	Integer updateMore(Contacts contacts);
+   
+}

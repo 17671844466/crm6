@@ -1,0 +1,9 @@
+package com.zhidisoft.system.dao;
+
+import com.zhidisoft.base.dao.BaseDao;
+import com.zhidisoft.system.entity.EmailTemplate;
+import java.util.List;
+
+public interface IEmailTemplateDao extends BaseDao<EmailTemplate>{
+    
+}

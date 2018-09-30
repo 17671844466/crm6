@@ -1,0 +1,21 @@
+package com.zhidisoft.system.service.impl;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zhidisoft.base.service.impl.BaseServiceImpl;
+import com.zhidisoft.system.dao.ILeadsDao;
+import com.zhidisoft.system.entity.Leads;
+import com.zhidisoft.system.service.ILeadsService;
+
+@Service
+public class LeadsServiceImpl extends BaseServiceImpl<Leads> implements ILeadsService{
+
+	@Autowired
+	private ILeadsDao leadsDao;
+
+	
+	
+	
+}

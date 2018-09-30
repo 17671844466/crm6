@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhidisoft.system.dao.IRoleFunctionDao">
+  <resultMap id="BaseResultMap" type="com.zhidisoft.system.entity.RoleFunction">
+    <!--
+      将表与实体进行关联
+    -->
+    <result column="roleId" jdbcType="INTEGER" property="roleid" />
+    <result column="funcId" jdbcType="INTEGER" property="funcid" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zhidisoft.system.entity.RoleFunction">
+    <!--
+     插入一条数据
+      -->
+    insert into tb_system_role_function (roleId, funcId)
+    values (#{roleid,jdbcType=INTEGER}, #{funcid,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--
+      查询所有的信息
+    -->
+    select roleId, funcId
+    from tb_system_role_function
+  </select>
+  
+  <!-- 根据角色id删除角色所有的权限 -->
+  <delete id="deleteroleId" parameterType="integer" >
+  delete from tb_system_role_function
+    where roleid = #{id}
+  </delete>
+  
+  <!-- 批量插入角色所有的权限 -->
+  <insert id="saveRoleFunc" parameterType="integer">
+   insert into tb_system_role_function (roleid, funcid)  values
+   <foreach collection="list" item="li" separator="," >
+   		(#{li.roleid},#{li.funcid})
+   </foreach>
+  
+  </insert>
+  <!-- 根据角色id查询该角色所有的权限 -->
+  <select id="getRoleFunction" resultMap="BaseResultMap">
+  select funcid from tb_system_role_function where roleId=#{id}
+  </select>
+</mapper>

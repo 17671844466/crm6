@@ -1,0 +1,18 @@
+package com.zhidisoft.system.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.zhidisoft.base.dao.BaseDao;
+import com.zhidisoft.system.entity.Leads;
+
+public interface ILeadsDao extends BaseDao<Leads>{
+	
+	List<Map<String, Object>> findMapByPage(@Param("offset") int offset,@Param("pageSize")int pageSize,@Param("condition")Map<String,Object> condition);
+
+	List<Map<String, Object>> findMapByPageInPool(@Param("offset") int offset,@Param("pageSize")int pageSize,@Param("condition")Map<String,Object> condition);
+
+}

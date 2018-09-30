@@ -1,0 +1,42 @@
+package com.zhidisoft.system.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zhidisoft.common.JsonResult;
+import com.zhidisoft.system.entity.Function;
+import com.zhidisoft.system.entity.Role;
+import com.zhidisoft.system.service.IUserService;
+
+@Controller
+public class IndexController {
+	
+	
+
+	@RequestMapping("/index")
+	public String index(){
+		return "index";
+	}
+	
+	
+	
+	@RequestMapping("/test")
+	public String test(){
+		return "success";
+	}
+
+	
+	public String execute2(){
+		return "success";
+	}
+
+}

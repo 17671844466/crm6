@@ -1,0 +1,38 @@
+package com.zhidisoft.spring.type.converter;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.springframework.core.convert.converter.Converter;
+
+public class String2DateConverter implements Converter<String, Date> {
+	
+	
+	private String pattern = "yyyy-MM-dd";
+
+	/**
+	 * 日期时间字符串转换为Date的核心方法
+	 * @param source
+	 * @return
+	 */
+	@Override
+	public Date convert(String source) {
+		if(source == null || source.isEmpty()){
+			return null;
+		}
+		
+		try {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			return simpleDateFormat.parse(source);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new RuntimeException("["+source+"]按照指定模式["+pattern+"]转换出现错误",e);
+		}
+	}
+	
+	public void setPattern(String pattern){
+		this.pattern = pattern;
+	}
+
+}

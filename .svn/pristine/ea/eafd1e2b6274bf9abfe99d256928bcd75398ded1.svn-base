@@ -1,0 +1,65 @@
+package com.zhidisoft.system.dao;
+
+import com.zhidisoft.base.dao.BaseDao;
+import com.zhidisoft.system.entity.Function;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+public interface IFunctionDao extends BaseDao<Function>{
+
+
+	List<Function> findByRoleId(Integer id, List<Integer> ids);
+   
+
+	/**
+	 * 通过角色id获取该角色对应的功能权限信息
+	 * @param roleIds
+	 * @return
+	 */
+	List<Function> findByParentId(@Param("roleIds")List<Integer> roleIds, @Param("parentId")Integer parentId,  @Param("state")Integer state);
+	
+	/**
+	 * 通过父权限id以及角色id获取对应的权限信息
+	 * @param roleIds
+	 * @param parentId
+	 * @param status
+	 * @return
+	 */
+	List<Function> findByRoleIds(@Param("roleIds")List<Integer> roleIds, @Param("state")Integer state);
+	
+	/**
+	 * 查询所有的权限
+	 */
+	List<Map<String, String>> getAll(@Param("page")Integer page, @Param("rows")Integer rows);
+
+	/**
+	 * 拿到所有记录数
+	 */
+	int count();
+	/**
+ * 查询出所有没有父类的权限
+ * @return
+ */
+	List<Function> getNOparentId();
+	
+
+	/**
+	 * 保存一个权限方法
+	 */
+	int insert(Function function);
+	/**
+	 * 根据id拿到一个权限的信息
+	 */
+	Function selectByPrimaryKey(Integer id);
+	/**
+	 * 修改一个权限的信息
+	 */
+	int updateByPrimaryKey(Function function);
+	/**
+	 * 根据id删除一个权限
+	 */
+	int deleteByPrimaryKey(Integer id);
+
+}

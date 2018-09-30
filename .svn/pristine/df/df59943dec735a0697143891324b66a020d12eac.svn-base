@@ -1,0 +1,24 @@
+package com.zhidisoft.system.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zhidisoft.system.dao.IRoleDao;
+import com.zhidisoft.system.entity.Role;
+import com.zhidisoft.system.service.IRoleService;
+
+@Service
+public class RoleServiceImpl implements IRoleService{
+	
+	@Autowired
+	private IRoleDao roleDao;
+
+	@Override
+	public List<Role> findByUserId(Integer userId) {
+		
+		return roleDao.findByUserId(userId,1);
+	}
+
+}

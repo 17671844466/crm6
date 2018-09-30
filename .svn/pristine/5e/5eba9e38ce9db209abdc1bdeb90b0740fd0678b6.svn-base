@@ -1,0 +1,9 @@
+package com.zhidisoft.system.dao;
+
+import com.zhidisoft.base.dao.BaseDao;
+import com.zhidisoft.system.entity.SmsRecord;
+import java.util.List;
+
+public interface ISmsRecordDao extends BaseDao<SmsRecord>{
+   
+}

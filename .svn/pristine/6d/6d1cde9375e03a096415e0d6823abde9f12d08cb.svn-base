@@ -1,0 +1,34 @@
+package com.zhidisoft.system.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zhidisoft.base.service.impl.BaseServiceImpl;
+import com.zhidisoft.system.dao.IContactsDao;
+import com.zhidisoft.system.entity.Contacts;
+import com.zhidisoft.system.service.IContactsService;
+@Service
+public class ContactsServiceImpl extends BaseServiceImpl<Contacts> implements IContactsService{
+	@Autowired
+	IContactsDao contactsDao;
+	@Override
+	public List<Map<String, Object>> findByPageMap(Integer offset, Integer rows, Map<String, Object> condition) {
+		return contactsDao.findByPageMap(offset,rows,condition);
+	}
+	@Override
+	public boolean updateMore(Contacts contacts) {
+		return contactsDao.updateMore(contacts) >0;
+	}
+	@Override
+	public void deletecontacts(Integer id) {
+		contactsDao.deletecontacts(id);
+	}
+	@Override
+	public void delscontacts(List<Integer> id) {
+		contactsDao.delscontacts(id);
+	}
+	
+}

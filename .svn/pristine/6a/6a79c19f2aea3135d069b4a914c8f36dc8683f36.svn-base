@@ -1,0 +1,112 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="<%=basePath%>">
+<title>线索</title>
+<meta charset="utf-8">
+<%@include file="../script.html" %>
+<style type="text/css">
+    .layout-panel-west {
+        border-right: 1px solid #c5c5c5;
+    }
+</style>
+</head>
+<body>
+<div id="master-layout">
+		
+			
+		<div id="tabs" data-options="region:'center',border:false,height:800" class="easyui-tabs">
+		<div id="tab1" title="线索">
+				<div class="theme-user-info-panel">
+					<div class="center">
+						视图：全部|我负责的|下属负责|下属创建
+					</div>
+				</div>
+			
+			<div class="right">
+				<a class="easyui-linkbutton add-button" data-options="iconCls:'icon-add'">新增</a>
+				<a class="easyui-linkbutton edit-button" data-options="iconCls:'icon-edit'">修改</a>
+				<a class="easyui-linkbutton delete-button" data-options="iconCls:'icon-remove'">删除</a>
+			</div>
+				<div id="user-info-more"
+					class="easyui-tabs theme-tab-blue-line theme-tab-body-unborder"
+					data-options="tools:'#tab-tools',fit:true">
+				<div class="toolbar">
+			
+				</div>
+					<table id="dataList"></table>
+				</div>
+			</div>
+			<div id="tab1" title="线索池">
+				线索池
+			</div>
+			<div id="tab1" title="统计">
+				
+					统计
+				
+			</div>
+			<div id="tab1" title="帮助">
+				
+			</div>
+		
+	</div>
+</body>
+<script type="text/javascript">
+		$(function(){
+			$(".edit-button").on('click',function(event){
+				event.preventDefault();
+				var rows = $("#dataList").datagrid("getChecked");
+				
+				if(!rows.length){
+					parent.$.messager.alert("警告","必须至少选择一行数据");
+					return;
+				}
+				//获取去选中第一行的leadsId
+				var leadsId = rows[0].leadsId;
+				
+				parent.openDialog("修改线索信息","system/users/edit?userId="+userId,function(){
+					$("#dataList").datagrid("reload");
+				});
+			});
+		});
+	
+		$(function(){
+			$("#dataList").datagrid({
+				url : "system/leads/findByPage",
+				pagination : true,
+				toolbar : "#toolbar",
+				rownumbers : true,
+				loadFilter : function(data){
+					if(data && data.success){
+						return data.data;
+					}
+				},
+				columns : [[
+			        {field:'id',checkbox:true},
+			        {field:'name',title:'公司名',width:80},
+			        {field:'contacts_name',title:'联系人姓名',width:80},
+			        {field:'saltname',title:'尊称',width:80},
+			        {field:'mobile',title:'手机',width:100},
+			        {field:'nextstep_time',title:'下次联系时间',width:100},
+			        {field:'nextstep',title:'下次联系内容',width:100},
+			        {field:'user1',title:'负责人',width:80},
+			        {field:'user2',title:'创建人',width:80},
+			        {field:'create_time',title:'创建时间',width:100},
+			       
+			        {field:'operation',title:'操作',formatter:function(value,row,index){
+			        	return "<a href=''>查看</a> | <a href=''>转换</a>| <a href=''>修改</a>"
+			        }},
+
+			    ]]
+			});
+		})
+	</script>
+</html>
